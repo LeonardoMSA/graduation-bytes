@@ -1,12 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
+
 import Preloader from '@/components/Preloader';
 import RetroDesktop from '@/components/RetroDesktop';
 import GlitchTransition from '@/components/GlitchTransition';
 import ModernSection from '@/components/ModernSection';
+import LearnMore from '@/components/LearnMore';
+
+type Phase = 'loading' | 'retro' | 'learnMore' | 'transition' | 'modern';
 
 const Index = () => {
-  const [phase, setPhase] = useState<'loading' | 'retro' | 'transition' | 'modern'>('loading');
+  const [phase, setPhase] = useState<Phase>('loading');
 
   useEffect(() => {
     console.log(
@@ -29,14 +33,36 @@ const Index = () => {
         {phase === 'loading' && (
           <Preloader key="preloader" onComplete={() => setPhase('retro')} />
         )}
+
         {phase === 'retro' && (
-          <Preloader key="preloader" onComplete={() => setPhase('retro')} />
+          <RetroDesktop
+            key="retro"
+            onEvolve={() => setPhase('transition')}
+            onBackToLoader={() => setPhase('loading')}
+            onLearnMore={() => setPhase('learnMore')}
+            learnMoreHref="/convite" // opcional (se você tiver rota)
+          />
         )}
+
+        {phase === 'learnMore' && (
+          <LearnMore
+            key="learnMore"
+            onBack={() => setPhase('retro')}
+            // opcional: se quiser permitir evoluir direto daqui também
+            // onEvolve={() => setPhase('transition')}
+          />
+        )}
+
         {phase === 'transition' && (
           <GlitchTransition key="transition" onComplete={() => setPhase('modern')} />
         )}
+
         {phase === 'modern' && (
-          <ModernSection key="modern" />
+          <ModernSection
+            key="modern"
+            // opcional: se quiser botão de voltar pra retro/learnMore
+            // onBack={() => setPhase('retro')}
+          />
         )}
       </AnimatePresence>
     </div>
@@ -44,3 +70,4 @@ const Index = () => {
 };
 
 export default Index;
+
