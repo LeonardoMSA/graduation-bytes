@@ -30,7 +30,7 @@ const Index = () => {
           <Preloader key="preloader" onComplete={() => setPhase('retro')} />
         )}
         {phase === 'retro' && (
-          <RetroDesktop key="retro" onEvolve={() => setPhase('transition')} />
+          <Preloader key="preloader" onComplete={() => setPhase('retro')} />
         )}
         {phase === 'transition' && (
           <GlitchTransition key="transition" onComplete={() => setPhase('modern')} />
