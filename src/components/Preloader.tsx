@@ -46,7 +46,7 @@ const PHOTO_SOURCES = [
 const EASTER_EGG = {
   enabled: true,
   count: 28, // quantas fotos caindo
-  durationMs: 1400, // quanto tempo dura antes de chamar onComplete
+  durationMs: 1500, // quanto tempo dura antes de chamar onComplete
 };
 
 function BevelBox({
