@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { getStoredRsvp, saveRsvp } from '@/lib/rsvpStorage';
+import type { RsvpStorage } from '@/components/shared/constants';
 
 interface RsvpSectionProps {
   onConfirm: () => void;
@@ -10,15 +12,54 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
   const [bringingGuest, setBringingGuest] = useState(false);
   const [guestName, setGuestName] = useState('');
   const [confirmed, setConfirmed] = useState(false);
+  const [alreadyConfirmed, setAlreadyConfirmed] = useState<RsvpStorage | null>(null);
 
-  const canSubmit = name.trim().length > 0;
+  useEffect(() => {
+    setAlreadyConfirmed(getStoredRsvp());
+  }, []);
+
+  const canSubmit = name.trim().length > 0 && !alreadyConfirmed;
 
   const handleConfirm = () => {
     if (!canSubmit) return;
+    saveRsvp({
+      confirmed: true,
+      name: name.trim(),
+      hasGuest: bringingGuest,
+      guestName: guestName.trim() || undefined,
+    });
     setConfirmed(true);
+    setAlreadyConfirmed(getStoredRsvp());
     onConfirm();
     setTimeout(() => setConfirmed(false), 4000);
   };
+
+  if (alreadyConfirmed) {
+    return (
+      <section className="py-24 px-6 relative">
+        <div className="max-w-lg mx-auto text-center">
+          <p className="font-mono text-xs tracking-[4px] uppercase text-[#c8ff00] mb-4">
+            Confirme presença
+          </p>
+          <h2 className="font-modern text-3xl sm:text-4xl font-bold mb-8 leading-tight">
+            Vem <span className="text-[#c8ff00]">comemorar</span>?
+          </h2>
+
+          <div className="glass rounded-3xl p-8 sm:p-12">
+            <p className="text-[#c8ff00] font-modern font-bold mb-4">
+              ✅ Você só precisa confirmar uma vez. Sua presença já está confirmada!
+            </p>
+            <p className="opacity-70 mb-6 leading-relaxed">
+              Se precisar alterar algo (nome, acompanhante, etc.), entre em contato comigo pelo WhatsApp.
+            </p>
+            <p className="font-mono text-xs opacity-50">
+              Ou mande uma msg no WhatsApp 📱
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-24 px-6 relative">

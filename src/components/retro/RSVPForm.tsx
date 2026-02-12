@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { THEME } from '@/components/shared/constants';
 
 interface RSVPFormProps {
@@ -12,6 +11,8 @@ interface RSVPFormProps {
   setGuestName: (name: string) => void;
   onConfirm: () => void;
   setIsConfirmed: (confirmed: boolean) => void;
+  /** Já confirmou uma vez (persistido); mostra aviso e desabilita inputs */
+  alreadyConfirmed?: boolean;
 }
 
 export function RSVPForm({
@@ -25,6 +26,7 @@ export function RSVPForm({
   setGuestName,
   onConfirm,
   setIsConfirmed,
+  alreadyConfirmed = false,
 }: RSVPFormProps) {
   const xpInput: React.CSSProperties = {
     width: '100%',
@@ -39,7 +41,31 @@ export function RSVPForm({
     outline: 'none',
   };
 
-  const canOpenConfirmModal = Boolean(name && attendance);
+  const canOpenConfirmModal = Boolean(name && attendance) && !alreadyConfirmed;
+
+  if (alreadyConfirmed) {
+    return (
+      <fieldset
+        style={{
+          borderTop: `2px solid ${THEME.winHighlight}`,
+          borderLeft: `2px solid ${THEME.winHighlight}`,
+          borderRight: `2px solid ${THEME.winShadow}`,
+          borderBottom: `2px solid ${THEME.winShadow}`,
+          padding: 'clamp(12px, 3.8vw, 18px)',
+          marginBottom: '10px',
+          background: THEME.winFace,
+        }}
+      >
+        <legend className="font-bold px-1 text-xs">Confirmação de Presença</legend>
+        <p style={{ fontSize: 12, fontWeight: 700, color: THEME.progress2, marginBottom: 6 }}>
+          ✅ Você só precisa confirmar uma vez. Sua presença já está confirmada!
+        </p>
+        <p style={{ fontSize: 11, color: THEME.subText, marginBottom: 0 }}>
+          Se precisar alterar algo, entre em contato comigo pelo WhatsApp.
+        </p>
+      </fieldset>
+    );
+  }
 
   return (
     <fieldset

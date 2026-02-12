@@ -7,6 +7,7 @@ import { RSVPForm } from './retro/RSVPForm';
 import { ConfirmModal } from './retro/ConfirmModal';
 import { Taskbar } from './retro/Taskbar';
 import { THEME } from './shared/constants';
+import { getStoredRsvp, saveRsvp } from '@/lib/rsvpStorage';
 
 interface Props {
   onEvolve: () => void;
@@ -27,12 +28,25 @@ export default function RetroDesktop({
   const [guestName, setGuestName] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const [alreadyConfirmed, setAlreadyConfirmed] = useState(false);
   const [time, setTime] = useState(new Date());
   const [clickCount, setClickCount] = useState(0);
 
   const windowWidth = useMemo(() => 'min(520px, 100%)', []);
   const bodyPad = useMemo(() => 'clamp(12px, 3.8vw, 18px)', []);
   const innerPad = useMemo(() => 'clamp(12px, 4vw, 16px)', []);
+
+  useEffect(() => {
+    const stored = getStoredRsvp();
+    if (stored?.confirmed) {
+      setAlreadyConfirmed(true);
+      setIsConfirmed(true);
+      if (stored.name) setName(stored.name);
+      if (stored.attendance) setAttendance(stored.attendance);
+      if (stored.hasGuest != null) setHasGuest(stored.hasGuest);
+      if (stored.guestName != null) setGuestName(stored.guestName);
+    }
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => setTime(new Date()), 1000);
@@ -61,6 +75,18 @@ export default function RetroDesktop({
   }
 
   const canEvolve = isConfirmed;
+
+  const handleConfirmFromModal = useCallback(() => {
+    saveRsvp({
+      confirmed: true,
+      name,
+      attendance,
+      hasGuest,
+      guestName,
+    });
+    setIsConfirmed(true);
+    setShowModal(false);
+  }, [name, attendance, hasGuest, guestName]);
 
   function handleLearnMoreClick(e: React.MouseEvent) {
     if (!onLearnMore) return;
@@ -261,6 +287,17 @@ export default function RetroDesktop({
                 >
                   Saiba mais <span aria-hidden="true">↗</span>
                 </a>
+                <div style={{ marginTop: 8 }}>
+                  <button
+                    type="button"
+                    onClick={onEvolve}
+                    className="learn-more"
+                    style={{ background: 'none', border: 'none' }}
+                    aria-label="Ver interface moderna"
+                  >
+                    Ver interface moderna →
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -275,6 +312,7 @@ export default function RetroDesktop({
               setGuestName={setGuestName}
               onConfirm={handleConfirm}
               setIsConfirmed={setIsConfirmed}
+              alreadyConfirmed={alreadyConfirmed}
             />
 
             <div className="text-center">
@@ -319,8 +357,11 @@ export default function RetroDesktop({
         attendance={attendance}
         hasGuest={hasGuest}
         guestName={guestName}
-        onConfirm={() => setIsConfirmed(true)}
-        onEvolve={onEvolve}
+        onConfirm={handleConfirmFromModal}
+        onEvolve={() => {
+          handleConfirmFromModal();
+          onEvolve();
+        }}
       />
 
       <Taskbar onStartClick={handleStartClick} time={time} />

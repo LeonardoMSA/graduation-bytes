@@ -34,3 +34,14 @@ export const MARQUEE_ITEMS = [
 ];
 
 export const TOTAL_EGGS = 10;
+
+/** Chave e tipo para persistir confirmação de presença (uma vez só) */
+export const RSVP_STORAGE_KEY = 'graduation-bytes-rsvp';
+
+export interface RsvpStorage {
+  confirmed: boolean;
+  name?: string;
+  attendance?: string;
+  hasGuest?: boolean;
+  guestName?: string;
+}
