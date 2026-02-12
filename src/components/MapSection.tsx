@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 export default function MapSection() {
   return (
@@ -25,7 +25,7 @@ export default function MapSection() {
             <div>
               <h3 className="font-modern font-bold text-lg">Local do Evento</h3>
               <p className="text-sm opacity-70 font-modern mt-1">
-                Endereço a ser definido — fique de olho nas atualizações!
+                Rua Antônio Vitrúvio, 49 - Poço da Panela
               </p>
             </div>
           </div>
@@ -40,13 +40,14 @@ export default function MapSection() {
           </div>
 
           <a
-            href="https://maps.google.com"
+            href="https://www.google.com/maps/dir/?api=1&destination=Rua+Ant%C3%B4nio+Vitr%C3%BAvio%2C+49+-+Po%C3%A7o+da+Panela%2C+Recife+-+PE"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-modern text-sm font-medium transition-all duration-300 hover:scale-105"
             style={{
-              background: 'linear-gradient(135deg, hsl(250, 80%, 67%), hsl(280, 60%, 50%))',
-              color: '#fff',
+              background:
+                "linear-gradient(135deg, hsl(250, 80%, 67%), hsl(280, 60%, 50%))",
+              color: "#fff",
             }}
           >
             🗺️ Como chegar
@@ -56,10 +57,14 @@ export default function MapSection() {
         {/* Map Embed */}
         <div className="w-full h-[300px] sm:h-[400px]">
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3975.!2d-35.7!3d-9.6!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOcKwMzYnMDAuMCJTIDM1wrA0MicwMC4wIlc!5e0!3m2!1spt-BR!2sbr!4v1"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3950.639587699286!2d-34.92789038905483!3d-8.036043691957492!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7ab190a5198bb61%3A0x7047e6d46330725c!2sR.%20Ant%C3%B4nio%20Vitr%C3%BAvio%2C%2049%20-%20Po%C3%A7o%20da%20Panela%2C%20Recife%20-%20PE%2C%2052061-210!5e0!3m2!1sen!2sbr!4v1770926741118!5m2!1sen!2sbr"
             width="100%"
             height="100%"
-            style={{ border: 0, filter: 'invert(0.9) hue-rotate(180deg) saturate(0.5) brightness(0.8)' }}
+            style={{
+              border: 0,
+              filter:
+                "invert(0.9) hue-rotate(180deg) saturate(0.5) brightness(0.8)",
+            }}
             allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
