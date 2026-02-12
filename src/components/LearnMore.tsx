@@ -1,36 +1,37 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { EventDetails } from './learn-more/EventDetails';
+import { MapEmbed } from './learn-more/MapEmbed';
 
 interface Props {
-  /** Voltar pra tela retro */
   onBack?: () => void;
 }
 
+const THEME = {
+  navy: '#0A246A',
+  deep: '#06122A',
+  lilac: '#CBBACE',
+  plum: '#A86AA8',
+  paper: '#ECE9D8',
+  ink: '#101114',
+};
+
+const EVENT = {
+  name: 'Luiza Omena',
+  title: 'Formatura e Aniversário',
+  date: '14 de março de 2026',
+  time: '16h',
+  placeTitle: 'Local do Evento',
+  place: 'Rua Antônio Vitrúvio, número 49, Poço da panela, Recife - PE.',
+  rsvpTitle: 'Confirmação de presença',
+  rsvpText: 'Gentileza confirmar presença para melhor organização do evento.',
+  rsvpNote: '(a confirmação é realizada na primeira tela)',
+  mapsHref: 'https://maps.google.com',
+  mapEmbedSrc:
+    'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3950.641387635871!2d-34.927826824703295!3d-8.03585879199102!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7ab190a56d46115%3A0x4752e50a206efaf0!2sR.%20Ant%C3%B4nio%20Vitr%C3%BAvio%20-%20Po%C3%A7o%20da%20Panela%2C%20Recife%20-%20PE%2C%2052061-210!5e0!3m2!1sen!2sbr!4v1770832595877!5m2!1sen!2sbr',
+};
+
 export default function LearnMore({ onBack }: Props) {
-  const THEME = {
-    navy: '#0A246A',
-    deep: '#06122A',
-    lilac: '#CBBACE',
-    plum: '#A86AA8',
-    paper: '#ECE9D8',
-    ink: '#101114',
-  };
-
-  const EVENT = {
-    name: 'Luiza Omena',
-    title: 'Formatura e Aniversário',
-    date: '14 de março de 2026',
-    time: '16h',
-    placeTitle: 'Local do Evento',
-    place: 'Rua Antônio Vitrúvio, número 49, Poço da panela, Recife - PE.',
-    rsvpTitle: 'Confirmação de presença',
-    rsvpText: 'Gentileza confirmar presença para melhor organização do evento.',
-    rsvpNote: '(a confirmação é realizada na primeira tela)',
-    mapsHref: 'https://maps.google.com',
-    mapEmbedSrc:
-      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3950.641387635871!2d-34.927826824703295!3d-8.03585879199102!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7ab190a56d46115%3A0x4752e50a206efaf0!2sR.%20Ant%C3%B4nio%20Vitr%C3%BAvio%20-%20Po%C3%A7o%20da%20Panela%2C%20Recife%20-%20PE%2C%2052061-210!5e0!3m2!1sen!2sbr!4v1770832595877!5m2!1sen!2sbr',
-  };
-
   return (
     <div
       className="min-h-screen"
@@ -49,7 +50,6 @@ export default function LearnMore({ onBack }: Props) {
           padding: 14px 16px 28px;
         }
 
-        /* ===== Card principal ===== */
         .card{
           position: relative;
           border-radius: 22px;
@@ -94,11 +94,9 @@ export default function LearnMore({ onBack }: Props) {
           );
         }
 
-        /* tipografia */
         .serif{ font-family: ui-serif, Georgia, "Times New Roman", Times, serif; }
         .sans{ font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; }
 
-        /* voltar discreto */
         .btn-back{
           display:inline-flex;
           align-items:center;
@@ -115,7 +113,6 @@ export default function LearnMore({ onBack }: Props) {
         }
         .btn-back:hover{ transform: translateY(-1px); filter: brightness(0.98); }
 
-        /* ===== Detalhes (data/hora/local) ===== */
         .detailsWrap{
           border-radius: 18px;
           padding: 14px;
@@ -158,16 +155,6 @@ export default function LearnMore({ onBack }: Props) {
           word-break: break-word;
         }
 
-        .pillHint{
-          display:inline-block;
-          padding: 6px 10px;
-          border-radius: 999px;
-          border: 1px solid rgba(10,36,106,0.14);
-          background: rgba(255,255,255,0.40);
-          color: rgba(10,36,106,0.70);
-          font-size: 12px;
-        }
-
         .sep{
           display:none;
         }
@@ -199,7 +186,6 @@ export default function LearnMore({ onBack }: Props) {
           }
         }
 
-        /* ===== Mapa integrado ===== */
         .mapWrap{
           border-radius: 18px;
           overflow: hidden;
@@ -253,7 +239,6 @@ export default function LearnMore({ onBack }: Props) {
           .mapFrame{ height: 320px; }
         }
 
-        /* respira no mobile */
         @media (max-width: 520px){
           .shell{ padding-top: 12px; }
         }
@@ -280,7 +265,6 @@ export default function LearnMore({ onBack }: Props) {
           <div className="corner c4" />
 
           <div className="px-5 sm:px-10 py-8 sm:py-10">
-            {/* Centro bonito */}
             <div className="text-center">
               <div className="serif text-3xl sm:text-5xl font-semibold" style={{ color: THEME.ink }}>
                 {EVENT.title}
@@ -308,91 +292,21 @@ export default function LearnMore({ onBack }: Props) {
 
             <div className="mt-7 rule" />
 
-            {/* Detalhes integrados */}
-            <div className="mt-8 detailsWrap">
-              <div className="detailsGrid">
-                {/* Data */}
-                <div className="detailItem">
-                  <div className="detailRow">
-                    <StampIcon kind="calendar" />
-                    <div>
-                      <div className="label sans">Data</div>
-                      <div className="value sans" style={{ marginTop: 2 }}>
-                        {EVENT.date}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+            <EventDetails
+              date={EVENT.date}
+              time={EVENT.time}
+              placeTitle={EVENT.placeTitle}
+              place={EVENT.place}
+            />
 
-                <div className="sep">
-                  <div className="sepLine" />
-                </div>
-
-                {/* Horário */}
-                <div className="detailItem">
-                  <div className="detailRow">
-                    <StampIcon kind="clock" />
-                    <div>
-                      <div className="label sans">Horário</div>
-                      <div className="value sans" style={{ marginTop: 2 }}>
-                        {EVENT.time}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="sep">
-                  <div className="sepLine" />
-                </div>
-
-                {/* Local */}
-                <div className="detailItem">
-                  <div className="detailRow">
-                    <StampIcon kind="pin" />
-                    <div className="min-w-0">
-                      <div className="label sans">{EVENT.placeTitle}</div>
-                      <div className="value sans" style={{ marginTop: 2 }}>
-                        {EVENT.place}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Mapa (alinhado e no mesmo “tom”) */}
-            <div className="mt-6 mapWrap">
-              <div className="mapHeader">
-                <div className="mapTitle">
-                  <MiniPinIcon />
-                  <div className="mapTitleText sans">{EVENT.placeTitle}</div>
-                </div>
-
-                <a
-                  href={EVENT.mapsHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mapLink sans"
-                >
-                  Abrir no Google Maps →
-                </a>
-              </div>
-
-              <div className="rule" />
-
-              <iframe
-                src={EVENT.mapEmbedSrc}
-                className="mapFrame"
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Localização do evento"
-              />
-            </div>
+            <MapEmbed
+              placeTitle={EVENT.placeTitle}
+              mapsHref={EVENT.mapsHref}
+              mapEmbedSrc={EVENT.mapEmbedSrc}
+            />
 
             <div className="mt-7 rule" />
 
-            {/* RSVP elegante */}
             <div className="mt-6 text-center">
               <div className="sans font-semibold" style={{ color: THEME.navy }}>
                 {EVENT.rsvpTitle}
@@ -403,100 +317,6 @@ export default function LearnMore({ onBack }: Props) {
           </div>
         </motion.section>
       </div>
-    </div>
-  );
-}
-
-/** Ícones desenhados (sem emoji) */
-function StampIcon({ kind }: { kind: 'calendar' | 'clock' | 'pin' }) {
-  const stroke = 'rgba(10,36,106,0.78)';
-  const fill = 'rgba(168,106,168,0.10)';
-
-  const common = {
-    width: 34,
-    height: 34,
-    viewBox: '0 0 48 48',
-    fill: 'none',
-    xmlns: 'http://www.w3.org/2000/svg',
-  };
-
-  return (
-    <div
-      aria-hidden="true"
-      style={{
-        width: 44,
-        height: 44,
-        borderRadius: 14,
-        display: 'grid',
-        placeItems: 'center',
-        background: 'rgba(255,255,255,0.45)',
-        border: '1px solid rgba(10,36,106,0.14)',
-        boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.55)',
-        flex: '0 0 auto',
-      }}
-    >
-      {kind === 'calendar' && (
-        <svg {...common}>
-          <rect x="10" y="14" width="28" height="22" rx="5" stroke={stroke} strokeWidth="2" fill={fill} />
-          <path d="M14 12v6M34 12v6" stroke={stroke} strokeWidth="2" strokeLinecap="round" />
-          <path d="M10 20h28" stroke={stroke} strokeWidth="2" strokeLinecap="round" />
-          <path d="M16 26h7" stroke={stroke} strokeWidth="2" strokeLinecap="round" opacity="0.9" />
-          <path d="M16 31h11" stroke={stroke} strokeWidth="2" strokeLinecap="round" opacity="0.9" />
-        </svg>
-      )}
-
-      {kind === 'clock' && (
-        <svg {...common}>
-          <circle cx="24" cy="24" r="14" stroke={stroke} strokeWidth="2" fill={fill} />
-          <path d="M24 16v9l6 3" stroke={stroke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M24 10v3" stroke={stroke} strokeWidth="2" strokeLinecap="round" opacity="0.7" />
-        </svg>
-      )}
-
-      {kind === 'pin' && (
-        <svg {...common}>
-          <path
-            d="M24 41s10-9.2 10-17.2C34 16.7 29.5 12 24 12s-10 4.7-10 11.8C14 31.8 24 41 24 41Z"
-            stroke={stroke}
-            strokeWidth="2"
-            fill={fill}
-          />
-          <circle cx="24" cy="24" r="4.2" stroke={stroke} strokeWidth="2" fill="rgba(255,255,255,0.35)" />
-        </svg>
-      )}
-    </div>
-  );
-}
-
-/** Pinzinho menor pro header do mapa */
-function MiniPinIcon() {
-  const stroke = 'rgba(10,36,106,0.78)';
-  const fill = 'rgba(203,186,206,0.22)';
-
-  return (
-    <div
-      aria-hidden="true"
-      style={{
-        width: 30,
-        height: 30,
-        borderRadius: 12,
-        display: 'grid',
-        placeItems: 'center',
-        background: 'rgba(255,255,255,0.45)',
-        border: '1px solid rgba(10,36,106,0.14)',
-        boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.55)',
-        flex: '0 0 auto',
-      }}
-    >
-      <svg width="18" height="18" viewBox="0 0 48 48" fill="none">
-        <path
-          d="M24 41s10-9.2 10-17.2C34 16.7 29.5 12 24 12s-10 4.7-10 11.8C14 31.8 24 41 24 41Z"
-          stroke={stroke}
-          strokeWidth="2.2"
-          fill={fill}
-        />
-        <circle cx="24" cy="24" r="4.2" stroke={stroke} strokeWidth="2.2" fill="rgba(255,255,255,0.35)" />
-      </svg>
     </div>
   );
 }

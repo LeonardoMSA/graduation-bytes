@@ -1,43 +1,22 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { BevelBox } from './shared/BevelBox';
+import { GraduationCapIcon } from './icons/GraduationCapIcon';
+import { BalloonIcon } from './icons/BalloonIcon';
+import { PhotoRain } from './preloader/PhotoRain';
+import { ClassicTitleBarButton } from './retro/ClassicTitleBarButton';
+import { THEME } from './shared/constants';
+import type { RainItem } from './shared/types';
 
 interface Props {
   onComplete: () => void;
 }
-
-/** Windows 2000-ish tokens + small lilac accent from your palette */
-const THEME = {
-  desktop: '#3A6EA5',
-  titleBar: '#0A246A',
-  titleText: '#FFFFFF',
-
-  // classic UI grays
-  winFace: '#D4D0C8',
-  winFace2: '#ECE9D8',
-  winShadow: '#808080',
-  winDkShadow: '#404040',
-  winHighlight: '#FFFFFF',
-  winLight: '#F5F5F5',
-
-  text: '#000000',
-  subText: '#3B3B3B',
-
-  // subtle personality accent (use little!)
-  lilac: '#CBBACE',
-  plum: '#A86AA8',
-
-  // progress fill (Win2000 blue)
-  progress1: '#2D78B7',
-  progress2: '#0B6FB4',
-};
 
 const LOADER = {
   intervalMs: 180,
   completeDelayMs: 450,
 };
 
-// ===== Easter egg config =====
-// Coloque suas fotos no /public/photos/... e use paths tipo "/photos/1.jpg"
 const PHOTO_SOURCES = [
   '/photos/me_01.PNG',
   '/photos/me_02.jpeg',
@@ -45,58 +24,9 @@ const PHOTO_SOURCES = [
 
 const EASTER_EGG = {
   enabled: true,
-  count: 28, // quantas fotos caindo
-  durationMs: 1500, // quanto tempo dura antes de chamar onComplete
+  count: 28,
+  durationMs: 1500,
 };
-
-function BevelBox({
-  children,
-  radius = 10,
-  style,
-}: {
-  children: React.ReactNode;
-  radius?: number;
-  style?: React.CSSProperties;
-}) {
-  return (
-    <div
-      style={{
-        borderRadius: radius,
-        background: THEME.winFace,
-        borderTop: `2px solid ${THEME.winHighlight}`,
-        borderLeft: `2px solid ${THEME.winHighlight}`,
-        borderRight: `2px solid ${THEME.winShadow}`,
-        borderBottom: `2px solid ${THEME.winShadow}`,
-        boxShadow: `inset 1px 1px 0 ${THEME.winLight}, inset -1px -1px 0 ${THEME.winDkShadow}`,
-        ...style,
-      }}
-    >
-      {children}
-    </div>
-  );
-}
-
-function GraduationCapIcon() {
-  return (
-    <svg width="44" height="44" viewBox="0 0 64 64" fill="none" aria-hidden="true">
-      <path d="M6 24L32 12l26 12-26 12L6 24Z" fill={THEME.winDkShadow} />
-      <path d="M14 28v10c0 2 9 8 18 8s18-6 18-8V28l-18 8-18-8Z" fill={THEME.lilac} />
-      <path d="M54 26v16" stroke={THEME.plum} strokeWidth="3" strokeLinecap="round" />
-      <circle cx="54" cy="44" r="4" fill={THEME.plum} />
-    </svg>
-  );
-}
-
-function BalloonIcon() {
-  return (
-    <svg width="44" height="44" viewBox="0 0 64 64" fill="none" aria-hidden="true">
-      <ellipse cx="32" cy="26" rx="16" ry="20" fill={THEME.plum} />
-      <ellipse cx="26" cy="20" rx="6" ry="8" fill="white" opacity="0.35" />
-      <path d="M28 46h8l-4 7-4-7Z" fill={THEME.lilac} />
-      <path d="M32 53v9" stroke={THEME.winDkShadow} strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  );
-}
 
 function getStatusText(progress: number) {
   if (progress < 18) return 'Conectando...';
@@ -107,89 +37,6 @@ function getStatusText(progress: number) {
   return 'Pronto!';
 }
 
-type RainItem = {
-  id: string;
-  src: string;
-  leftVw: number; // 0..100
-  size: number; // px
-  rotate: number; // deg
-  delay: number; // s
-  duration: number; // s
-  drift: number; // px
-  blur: number; // px
-  opacity: number;
-};
-
-function PhotoRain({
-  show,
-  items,
-}: {
-  show: boolean;
-  items: RainItem[];
-}) {
-  return (
-    <AnimatePresence>
-      {show ? (
-        <motion.div
-          key="rain"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: 60,
-            pointerEvents: 'none',
-          }}
-        >
-          {items.map(it => (
-            <motion.img
-              key={it.id}
-              src={it.src}
-              alt=""
-              aria-hidden="true"
-              initial={{
-                y: -120,
-                x: 0,
-                rotate: it.rotate,
-                opacity: 0,
-              }}
-              animate={{
-                y: '110vh',
-                x: it.drift,
-                rotate: it.rotate + (Math.random() > 0.5 ? 40 : -40),
-                opacity: it.opacity,
-              }}
-              transition={{
-                duration: it.duration,
-                delay: it.delay,
-                ease: 'easeIn',
-              }}
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: `${it.leftVw}vw`,
-                width: it.size,
-                height: it.size,
-                objectFit: 'cover',
-                borderRadius: 10,
-                filter: `blur(${it.blur}px)`,
-                boxShadow:
-                  '0 10px 30px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.25)',
-                borderTop: `2px solid ${THEME.winHighlight}`,
-                borderLeft: `2px solid ${THEME.winHighlight}`,
-                borderRight: `2px solid ${THEME.winShadow}`,
-                borderBottom: `2px solid ${THEME.winShadow}`,
-                background: THEME.winFace2,
-              }}
-            />
-          ))}
-        </motion.div>
-      ) : null}
-    </AnimatePresence>
-  );
-}
-
 export default function Preloader({ onComplete }: Props) {
   const [progress, setProgress] = useState(0);
   const [isClosing, setIsClosing] = useState(false);
@@ -197,19 +44,18 @@ export default function Preloader({ onComplete }: Props) {
 
   const statusText = useMemo(() => getStatusText(progress), [progress]);
 
-  // Seeds fixos (pra não "pular" no re-render)
   const rainItems = useMemo<RainItem[]>(() => {
     const safePhotos = PHOTO_SOURCES.length ? PHOTO_SOURCES : ['/favicon.ico'];
 
     return Array.from({ length: EASTER_EGG.count }).map((_, i) => {
       const src = safePhotos[i % safePhotos.length];
       const leftVw = Math.random() * 100;
-      const size = 54 + Math.random() * 56; // 54..110
+      const size = 54 + Math.random() * 56;
       const rotate = -18 + Math.random() * 36;
-      const delay = Math.random() * 0.25; // 0..0.25s (começa quase instant)
-      const duration = 0.9 + Math.random() * 0.9; // 0.9..1.8s
-      const drift = -40 + Math.random() * 80; // -40..40
-      const blur = Math.random() * 0.6; // leve
+      const delay = Math.random() * 0.25;
+      const duration = 0.9 + Math.random() * 0.9;
+      const drift = -40 + Math.random() * 80;
+      const blur = Math.random() * 0.6;
       const opacity = 0.85 + Math.random() * 0.15;
 
       return {
@@ -230,7 +76,6 @@ export default function Preloader({ onComplete }: Props) {
   useEffect(() => {
     let finished = false;
 
-    // se já tá fechando (por clique no X), para de mexer no progresso
     if (isClosing) return;
 
     const interval = setInterval(() => {
@@ -281,7 +126,6 @@ export default function Preloader({ onComplete }: Props) {
       return;
     }
 
-    // fallback: só fecha normal
     onComplete();
   }
 
@@ -294,10 +138,8 @@ export default function Preloader({ onComplete }: Props) {
         background: THEME.desktop,
       }}
     >
-      {/* Easter egg overlay */}
       <PhotoRain show={showRain} items={rainItems} />
 
-      {/* “Window” */}
       <motion.div
         initial={{ scale: 1, opacity: 1 }}
         animate={{
@@ -309,7 +151,6 @@ export default function Preloader({ onComplete }: Props) {
         style={{ width: 520, maxWidth: '100%' }}
       >
         <BevelBox radius={8} style={{ width: '100%', maxWidth: '100%' }}>
-          {/* Title bar */}
           <div
             style={{
               background: THEME.titleBar,
@@ -339,7 +180,6 @@ export default function Preloader({ onComplete }: Props) {
               Convite.exe
             </div>
 
-            {/* Classic buttons */}
             <div style={{ display: 'flex', gap: 6 }}>
               {['_', '□'].map(label => (
                 <BevelBox
@@ -361,7 +201,6 @@ export default function Preloader({ onComplete }: Props) {
                 </BevelBox>
               ))}
 
-              {/* ✕ clicável */}
               <button
                 type="button"
                 onClick={triggerCloseWithEasterEgg}
@@ -371,26 +210,11 @@ export default function Preloader({ onComplete }: Props) {
                   cursor: 'pointer',
                 }}
               >
-                <BevelBox
-                  radius={3}
-                  style={{
-                    width: 22,
-                    height: 18,
-                    display: 'grid',
-                    placeItems: 'center',
-                    background: THEME.winFace,
-                    fontSize: 12,
-                    lineHeight: 1,
-                    padding: 0,
-                  }}
-                >
-                  <span style={{ transform: 'translateY(-1px)' }}>✕</span>
-                </BevelBox>
+                <ClassicTitleBarButton label="✕" />
               </button>
             </div>
           </div>
 
-          {/* Content area */}
           <div style={{ padding: 18 }}>
             <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
               <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
@@ -416,7 +240,6 @@ export default function Preloader({ onComplete }: Props) {
                   {statusText}
                 </div>
 
-                {/* Progress group (classic) */}
                 <div style={{ marginTop: 12 }}>
                   <div
                     style={{
@@ -470,7 +293,6 @@ export default function Preloader({ onComplete }: Props) {
               </div>
             </div>
 
-            {/* Optional: classic “status bar” line */}
             <div
               style={{
                 marginTop: 16,
