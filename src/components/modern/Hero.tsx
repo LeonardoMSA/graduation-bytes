@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 export function Hero() {
   return (
@@ -14,7 +14,7 @@ export function Hero() {
           transition={{
             duration: 3,
             repeat: Infinity,
-            ease: 'easeInOut',
+            ease: "easeInOut",
           }}
           className="text-6xl sm:text-7xl mb-6"
         >

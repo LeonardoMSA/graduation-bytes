@@ -1,18 +1,20 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { getStoredRsvp, saveRsvp } from '@/lib/rsvpStorage';
-import type { RsvpStorage } from '@/components/shared/constants';
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { getStoredRsvp, saveRsvp } from "@/lib/rsvpStorage";
+import type { RsvpStorage } from "@/components/shared/constants";
 
 interface RsvpSectionProps {
   onConfirm: () => void;
 }
 
 export function RsvpSection({ onConfirm }: RsvpSectionProps) {
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
   const [bringingGuest, setBringingGuest] = useState(false);
-  const [guestName, setGuestName] = useState('');
+  const [guestName, setGuestName] = useState("");
   const [confirmed, setConfirmed] = useState(false);
-  const [alreadyConfirmed, setAlreadyConfirmed] = useState<RsvpStorage | null>(null);
+  const [alreadyConfirmed, setAlreadyConfirmed] = useState<RsvpStorage | null>(
+    null,
+  );
 
   useEffect(() => {
     setAlreadyConfirmed(getStoredRsvp());
@@ -47,10 +49,12 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
 
           <div className="glass rounded-3xl p-8 sm:p-12">
             <p className="text-[#c8ff00] font-modern font-bold mb-4">
-              ✅ Você só precisa confirmar uma vez. Sua presença já está confirmada!
+              ✅ Você só precisa confirmar uma vez. Sua presença já está
+              confirmada!
             </p>
             <p className="opacity-70 mb-6 leading-relaxed">
-              Se precisar alterar algo (nome, acompanhante, etc.), entre em contato comigo pelo WhatsApp.
+              Se precisar alterar algo (nome, acompanhante, etc.), entre em
+              contato comigo pelo WhatsApp.
             </p>
             <p className="font-mono text-xs opacity-50">
               Ou mande uma msg no WhatsApp 📱
@@ -73,8 +77,8 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
 
         <div className="glass rounded-3xl p-8 sm:p-12">
           <p className="opacity-50 mb-8 leading-relaxed">
-            Confirme sua presença e faça parte dessa celebração!
-            A Luiza adoraria ter você lá. 💜
+            Confirme sua presença e faça parte dessa celebração! Vou adorar ter
+            você lá. 💜
           </p>
 
           <input
@@ -119,7 +123,7 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
                   <button
                     onClick={() => {
                       setBringingGuest(false);
-                      setGuestName('');
+                      setGuestName("");
                     }}
                     className="w-10 h-10 rounded-full glass flex items-center justify-center text-lg hover:border-[#ff2d7b] transition-colors cursor-pointer shrink-0"
                     title="Remover acompanhante"
@@ -138,13 +142,13 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
             disabled={!canSubmit}
             className={`px-10 py-4 rounded-full font-modern font-bold text-base tracking-wider transition-all duration-300 ${
               confirmed
-                ? 'bg-emerald-500 text-white cursor-default'
+                ? "bg-emerald-500 text-white cursor-default"
                 : canSubmit
-                  ? 'bg-[#c8ff00] text-black hover:shadow-[0_0_40px_rgba(200,255,0,0.3)] cursor-pointer'
-                  : 'bg-white/10 text-white/30 cursor-not-allowed'
+                  ? "bg-[#c8ff00] text-black hover:shadow-[0_0_40px_rgba(200,255,0,0.3)] cursor-pointer"
+                  : "bg-white/10 text-white/30 cursor-not-allowed"
             }`}
           >
-            {confirmed ? '✅ Presença Confirmada!' : 'Confirmar Presença 🎉'}
+            {confirmed ? "✅ Presença Confirmada!" : "Confirmar Presença 🎉"}
           </motion.button>
 
           <p className="font-mono text-xs opacity-30 mt-4">
