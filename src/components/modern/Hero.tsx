@@ -35,22 +35,28 @@ export function Hero() {
           />
 
         </div>
-
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold font-modern mb-4 leading-tight">
-          <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(to right, #CB8CC2, #3794CF, #077BC6)', textShadow: '0 0 40px rgba(55,148,207,0.25)' }}>
+          <span
+            className="bg-clip-text text-transparent"
+            style={{
+              backgroundImage: 'linear-gradient(to right, #CB8CC2, #3794CF, #077BC6)',
+              textShadow: `
+        0 0 6px rgba(255,255,255,0.25),
+        0 0 28px rgba(55,148,207,0.18)
+      `
+            }}
+          >
             Luiza Omena
           </span>
         </h1>
 
-        <p className="text-lg sm:text-xl font-modern opacity-70 mb-2">
-          Bacharela em Ciência da Computação
-        </p>
 
-        <div className="glass rounded-2xl inline-block px-6 sm:px-8 py-4 mt-6">
-          <p className="font-modern text-sm sm:text-base opacity-80">
-            📅 14 de março de 2026 &nbsp;·&nbsp; 🕐 16h &nbsp;·&nbsp; 🎂
-            Formatura + Aniversário
-          </p>
+        <div className="mt-6 flex justify-center">
+          <motion.img
+            src="/assets/info_festa.png"
+            alt="14 de março de 2026, início às 16h. Rua Antônio Virtruvio, 49. Formatura + Aniversário."
+            className="max-w-[340px] sm:max-w-[420px] w-full h-auto object-contain drop-shadow-lg ml-2 sm:ml-4"
+          />
         </div>
 
         <motion.div

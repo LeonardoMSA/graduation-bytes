@@ -34,8 +34,8 @@ export default function GlitchTransition({ onComplete }: Props) {
             style={{
               background:
                 "linear-gradient(180deg, #0668BC 0%, #3794CF 30%, #077BC6 100%)",
-              animation: "glitch-1 0.3s infinite steps(1)",
-              opacity: phase === 0 ? 1 : 0.5,
+              animation: "glitch-1 0.55s infinite steps(1)",
+              opacity: phase === 0 ? 0.6 : 0.35,
             }}
           />
           <div
@@ -43,9 +43,9 @@ export default function GlitchTransition({ onComplete }: Props) {
             style={{
               background:
                 "linear-gradient(180deg, #0668BC 0%, #3794CF 30%, #077BC6 100%)",
-              animation: "glitch-1 0.2s 0.1s infinite steps(1) reverse",
+              animation: "glitch-1 0.5s 0.1s infinite steps(1) reverse",
               mixBlendMode: "difference",
-              opacity: 0.7,
+              opacity: 0.15,
             }}
           />
         </>
@@ -62,27 +62,27 @@ export default function GlitchTransition({ onComplete }: Props) {
       />
 
       {/* Center text */}
-      <div className="absolute inset-0 flex items-center justify-center">
+      <div className="absolute inset-0 flex items-center justify-center z-10">
         <motion.div
           className="text-center"
           animate={{
-            opacity: [0, 1, 0.3, 1],
+            opacity: [0, 1, 0.9, 1],
             scale: phase >= 2 ? [1, 1.05, 1] : 1,
           }}
           transition={{ duration: 0.5 }}
         >
           {phase === 0 && (
             <p
-              className="font-pixel text-2xl sm:text-4xl"
-              style={{ color: "#A6CEE8" }}
+              className="font-pixel text-2xl sm:text-4xl drop-shadow-[0_0_8px_rgba(0,0,0,0.8)]"
+              style={{ color: "#A6CEE8", textShadow: "0 0 12px rgba(0,0,0,0.9), 0 2px 4px rgba(0,0,0,0.5)" }}
             >
               {"> Buscando detalhes da festa..."}
             </p>
           )}
           {phase === 1 && (
             <p
-              className="font-pixel text-2xl sm:text-4xl"
-              style={{ color: "#A6CEE8" }}
+              className="font-pixel text-2xl sm:text-4xl drop-shadow-[0_0_8px_rgba(0,0,0,0.8)]"
+              style={{ color: "#A6CEE8", textShadow: "0 0 12px rgba(0,0,0,0.9), 0 2px 4px rgba(0,0,0,0.5)" }}
             >
               {"> Carregando endereço e horário..."}
             </p>
