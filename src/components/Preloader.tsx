@@ -1,12 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { motion } from 'framer-motion';
-import { BevelBox } from './shared/BevelBox';
-import { GraduationCapIcon } from './icons/GraduationCapIcon';
-import { BalloonIcon } from './icons/BalloonIcon';
-import { PhotoRain } from './preloader/PhotoRain';
-import { ClassicTitleBarButton } from './retro/ClassicTitleBarButton';
-import { THEME } from './shared/constants';
-import type { RainItem } from './shared/types';
+import React, { useEffect, useMemo, useState } from "react";
+import { motion } from "framer-motion";
+import { BevelBox } from "./shared/BevelBox";
+import { GraduationCapIcon } from "./icons/GraduationCapIcon";
+import { BalloonIcon } from "./icons/BalloonIcon";
+import { PhotoRain } from "./preloader/PhotoRain";
+import { ClassicTitleBarButton } from "./retro/ClassicTitleBarButton";
+import { THEME } from "./shared/constants";
+import type { RainItem } from "./shared/types";
 
 interface Props {
   onComplete: () => void;
@@ -17,10 +17,7 @@ const LOADER = {
   completeDelayMs: 450,
 };
 
-const PHOTO_SOURCES = [
-  '/photos/me_01.PNG',
-  '/photos/me_02.jpeg',
-];
+const PHOTO_SOURCES = ["/photos/me_01.PNG", "/photos/me_02.jpeg"];
 
 const EASTER_EGG = {
   enabled: true,
@@ -29,12 +26,12 @@ const EASTER_EGG = {
 };
 
 function getStatusText(progress: number) {
-  if (progress < 18) return 'Conectando...';
-  if (progress < 45) return 'Buscando detalhes da festa...';
-  if (progress < 72) return 'Carregando endereço e horário...';
-  if (progress < 92) return 'Preparando a página do convite...';
-  if (progress < 100) return 'Finalizando...';
-  return 'Pronto!';
+  if (progress < 18) return "Conectando...";
+  if (progress < 45) return "Buscando detalhes da festa...";
+  if (progress < 72) return "Carregando endereço e horário...";
+  if (progress < 92) return "Preparando a página do convite...";
+  if (progress < 100) return "Finalizando...";
+  return "Pronto!";
 }
 
 export default function Preloader({ onComplete }: Props) {
@@ -45,7 +42,7 @@ export default function Preloader({ onComplete }: Props) {
   const statusText = useMemo(() => getStatusText(progress), [progress]);
 
   const rainItems = useMemo<RainItem[]>(() => {
-    const safePhotos = PHOTO_SOURCES.length ? PHOTO_SOURCES : ['/favicon.ico'];
+    const safePhotos = PHOTO_SOURCES.length ? PHOTO_SOURCES : ["/favicon.ico"];
 
     return Array.from({ length: EASTER_EGG.count }).map((_, i) => {
       const src = safePhotos[i % safePhotos.length];
@@ -79,7 +76,7 @@ export default function Preloader({ onComplete }: Props) {
     if (isClosing) return;
 
     const interval = setInterval(() => {
-      setProgress(prev => {
+      setProgress((prev) => {
         if (finished) return 100;
 
         let step: number;
@@ -113,22 +110,6 @@ export default function Preloader({ onComplete }: Props) {
   const safeProgress = Math.min(progress, 100);
   const progressLabel = `${Math.round(safeProgress)}%`;
 
-  function triggerCloseWithEasterEgg() {
-    if (isClosing) return;
-
-    setIsClosing(true);
-
-    if (EASTER_EGG.enabled && PHOTO_SOURCES.length > 0) {
-      setShowRain(true);
-      window.setTimeout(() => {
-        onComplete();
-      }, EASTER_EGG.durationMs);
-      return;
-    }
-
-    onComplete();
-  }
-
   return (
     <motion.div
       exit={{ opacity: 0 }}
@@ -147,25 +128,25 @@ export default function Preloader({ onComplete }: Props) {
           opacity: isClosing ? 0.0 : 1,
           y: isClosing ? 6 : 0,
         }}
-        transition={{ duration: 0.18, ease: 'easeOut' }}
-        style={{ width: 520, maxWidth: '100%' }}
+        transition={{ duration: 0.18, ease: "easeOut" }}
+        style={{ width: 520, maxWidth: "100%" }}
       >
-        <BevelBox radius={8} style={{ width: '100%', maxWidth: '100%' }}>
+        <BevelBox radius={8} style={{ width: "100%", maxWidth: "100%" }}>
           <div
             style={{
               background: THEME.titleBar,
               color: THEME.titleText,
-              padding: '8px 10px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
+              padding: "8px 10px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
               fontSize: 13,
               fontWeight: 700,
               letterSpacing: 0.1,
-              userSelect: 'none',
+              userSelect: "none",
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <div
                 style={{
                   width: 14,
@@ -180,16 +161,16 @@ export default function Preloader({ onComplete }: Props) {
               Convite.exe
             </div>
 
-            <div style={{ display: 'flex', gap: 6 }}>
-              {['_', '□'].map(label => (
+            <div style={{ display: "flex", gap: 6 }}>
+              {["_", "□"].map((label) => (
                 <BevelBox
                   key={label}
                   radius={3}
                   style={{
                     width: 22,
                     height: 18,
-                    display: 'grid',
-                    placeItems: 'center',
+                    display: "grid",
+                    placeItems: "center",
                     background: THEME.winFace,
                     fontSize: 12,
                     lineHeight: 1,
@@ -197,17 +178,16 @@ export default function Preloader({ onComplete }: Props) {
                     opacity: 0.9,
                   }}
                 >
-                  <span style={{ transform: 'translateY(-1px)' }}>{label}</span>
+                  <span style={{ transform: "translateY(-1px)" }}>{label}</span>
                 </BevelBox>
               ))}
 
               <button
                 type="button"
-                onClick={triggerCloseWithEasterEgg}
                 aria-label="Fechar"
                 style={{
-                  all: 'unset',
-                  cursor: 'pointer',
+                  all: "unset",
+                  cursor: "pointer",
                 }}
               >
                 <ClassicTitleBarButton label="✕" />
@@ -216,27 +196,31 @@ export default function Preloader({ onComplete }: Props) {
           </div>
 
           <div style={{ padding: 18 }}>
-            <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
-              <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+            <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
+              <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
                 <motion.div
                   animate={{ rotate: 360 }}
-                  transition={{ duration: 5, repeat: Infinity, ease: 'linear' }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
                 >
                   <GraduationCapIcon />
                 </motion.div>
                 <motion.div
                   animate={{ rotate: -360 }}
-                  transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
+                  transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
                 >
                   <BalloonIcon />
                 </motion.div>
               </div>
 
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: THEME.text }}>
+                <div
+                  style={{ fontSize: 13, fontWeight: 700, color: THEME.text }}
+                >
                   Abrindo o convite…
                 </div>
-                <div style={{ fontSize: 12, color: THEME.subText, marginTop: 4 }}>
+                <div
+                  style={{ fontSize: 12, color: THEME.subText, marginTop: 4 }}
+                >
                   {statusText}
                 </div>
 
@@ -244,7 +228,7 @@ export default function Preloader({ onComplete }: Props) {
                   <div
                     style={{
                       height: 18,
-                      background: '#FFFFFF',
+                      background: "#FFFFFF",
                       borderTop: `1px solid ${THEME.winShadow}`,
                       borderLeft: `1px solid ${THEME.winShadow}`,
                       borderRight: `1px solid ${THEME.winHighlight}`,
@@ -255,10 +239,10 @@ export default function Preloader({ onComplete }: Props) {
                     <div
                       style={{
                         width: `${safeProgress}%`,
-                        height: '100%',
+                        height: "100%",
                         minWidth: safeProgress > 0 ? 6 : 0,
-                        transition: 'width 0.18s ease',
-                        boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.35)',
+                        transition: "width 0.18s ease",
+                        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.35)",
                         background: `
                           repeating-linear-gradient(
                             90deg,
@@ -279,15 +263,17 @@ export default function Preloader({ onComplete }: Props) {
 
                   <div
                     style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
+                      display: "flex",
+                      justifyContent: "space-between",
                       marginTop: 6,
                       fontSize: 11,
                       color: THEME.subText,
                     }}
                   >
                     <span>Carregamento</span>
-                    <span style={{ fontVariantNumeric: 'tabular-nums' }}>{progressLabel}</span>
+                    <span style={{ fontVariantNumeric: "tabular-nums" }}>
+                      {progressLabel}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -302,7 +288,8 @@ export default function Preloader({ onComplete }: Props) {
             >
               <div style={{ fontSize: 11, color: THEME.subText }}>
                 Pode explorar a interface que tem algumas surpresas.
-                <br />Só lembra de confirmar a presença, por favor. 🥹 🫶
+                <br />
+                Só lembra de confirmar a presença, por favor. 🥹 🫶
               </div>
             </div>
           </div>

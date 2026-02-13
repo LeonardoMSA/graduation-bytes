@@ -1,14 +1,10 @@
-import { useState, useRef } from 'react';
-import { PIXEL_COLORS } from '@/components/shared/constants';
+import { useState, useRef } from "react";
+import { PIXEL_COLORS } from "@/components/shared/constants";
 
-interface PixelArtProps {
-  onMilestone: () => void;
-}
-
-export function PixelArt({ onMilestone }: PixelArtProps) {
+export function PixelArt() {
   const [currentColor, setCurrentColor] = useState(PIXEL_COLORS[0]);
   const [pixels, setPixels] = useState<(string | null)[]>(
-    Array(256).fill(null)
+    Array(256).fill(null),
   );
   const [isDrawing, setIsDrawing] = useState(false);
   const milestoneRef = useRef(false);
@@ -17,11 +13,7 @@ export function PixelArt({ onMilestone }: PixelArtProps) {
     setPixels((prev) => {
       const next = [...prev];
       next[index] = currentColor;
-      const painted = next.filter(Boolean).length;
-      if (painted >= 50 && !milestoneRef.current) {
-        milestoneRef.current = true;
-        onMilestone();
-      }
+
       return next;
     });
   };
@@ -47,9 +39,9 @@ export function PixelArt({ onMilestone }: PixelArtProps) {
               className="w-8 h-8 rounded-lg cursor-pointer transition-all duration-200"
               style={{
                 background: c,
-                borderWidth: '2px',
-                borderStyle: 'solid',
-                borderColor: c === currentColor ? '#fff' : 'transparent',
+                borderWidth: "2px",
+                borderStyle: "solid",
+                borderColor: c === currentColor ? "#fff" : "transparent",
               }}
             />
           ))}
@@ -57,14 +49,14 @@ export function PixelArt({ onMilestone }: PixelArtProps) {
 
         <div
           className="grid gap-[2px] max-w-[400px] mx-auto p-4 bg-black/40 rounded-2xl border border-white/[0.08] select-none"
-          style={{ gridTemplateColumns: 'repeat(16, 1fr)' }}
+          style={{ gridTemplateColumns: "repeat(16, 1fr)" }}
           onMouseLeave={() => setIsDrawing(false)}
         >
           {pixels.map((color, i) => (
             <div
               key={i}
               className="aspect-square rounded-[2px] cursor-pointer transition-all duration-150 hover:scale-125 hover:z-10"
-              style={{ background: color || 'rgba(255,255,255,0.04)' }}
+              style={{ background: color || "rgba(255,255,255,0.04)" }}
               onMouseDown={(e) => {
                 e.preventDefault();
                 setIsDrawing(true);
