@@ -34,7 +34,7 @@ export function TimelineItem({ item, index }: TimelineItemProps) {
       </div>
 
       <div className="hidden sm:flex flex-col items-center">
-        <div className="w-4 h-4 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 shadow-lg shadow-purple-500/30" />
+        <div className="w-4 h-4 rounded-full shadow-lg" style={{ background: 'linear-gradient(135deg, #CB8CC2, #3794CF)', boxShadow: '0 0 12px rgba(55,148,207,0.3)' }} />
       </div>
 
       <div className="flex-1 hidden sm:block" />

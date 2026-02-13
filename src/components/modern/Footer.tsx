@@ -6,7 +6,7 @@ export function Footer() {
         style={{
           fontSize: "clamp(2rem, 6vw, 5rem)",
           letterSpacing: "-2px",
-          background: "linear-gradient(135deg, #c8ff00, #00e5ff, #ff2d7b)",
+          background: "linear-gradient(135deg, #7BB1D9, #077BC6, #CB8CC2)",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
         }}

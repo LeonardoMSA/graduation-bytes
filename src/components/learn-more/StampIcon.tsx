@@ -4,7 +4,7 @@ interface StampIconProps {
 
 export function StampIcon({ kind }: StampIconProps) {
   const stroke = 'rgba(10,36,106,0.78)';
-  const fill = 'rgba(168,106,168,0.10)';
+  const fill = 'rgba(203,140,194,0.10)';
 
   const common = {
     width: 34,

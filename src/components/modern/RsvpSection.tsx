@@ -40,15 +40,15 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
     return (
       <section className="py-24 px-6 relative">
         <div className="max-w-lg mx-auto text-center">
-          <p className="font-mono text-xs tracking-[4px] uppercase text-[#c8ff00] mb-4">
+          <p className="font-mono text-xs tracking-[4px] uppercase text-[#7BB1D9] mb-4">
             Confirme presença
           </p>
           <h2 className="font-modern text-3xl sm:text-4xl font-bold mb-8 leading-tight">
-            Vem <span className="text-[#c8ff00]">comemorar</span>?
+            Vem <span className="text-[#3794CF]" style={{ textShadow: '0 0 24px rgba(55,148,207,0.4)' }}>comemorar</span>?
           </h2>
 
           <div className="glass rounded-3xl p-8 sm:p-12">
-            <p className="text-[#c8ff00] font-modern font-bold mb-4">
+            <p className="text-[#3794CF] font-modern font-bold mb-4">
               ✅ Você só precisa confirmar uma vez. Sua presença já está
               confirmada!
             </p>
@@ -68,11 +68,11 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
   return (
     <section className="py-24 px-6 relative">
       <div className="max-w-lg mx-auto text-center">
-        <p className="font-mono text-xs tracking-[4px] uppercase text-[#c8ff00] mb-4">
+        <p className="font-mono text-xs tracking-[4px] uppercase text-[#7BB1D9] mb-4">
           Confirme presença
         </p>
         <h2 className="font-modern text-3xl sm:text-4xl font-bold mb-8 leading-tight">
-          Vem <span className="text-[#c8ff00]">comemorar</span>?
+          Vem <span className="text-[#3794CF]" style={{ textShadow: '0 0 24px rgba(55,148,207,0.4)' }}>comemorar</span>?
         </h2>
 
         <div className="glass rounded-3xl p-8 sm:p-12">
@@ -86,7 +86,7 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Seu nome *"
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 mb-6 text-sm font-mono placeholder:opacity-30 focus:outline-none focus:border-[#c8ff00]/50 transition-colors"
+            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 mb-6 text-sm font-mono placeholder:opacity-30 focus:outline-none focus:border-[#3794CF]/60 transition-colors"
           />
 
           <div className="mb-8">
@@ -99,7 +99,7 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
                   onClick={() => setBringingGuest(true)}
-                  className="px-5 py-2.5 rounded-xl glass font-mono text-sm cursor-pointer hover:border-[#c8ff00] transition-all"
+                  className="px-5 py-2.5 rounded-xl glass font-mono text-sm cursor-pointer hover:border-[#3794CF] transition-all"
                 >
                   Vou levar alguém +1
                 </motion.button>
@@ -118,14 +118,14 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
                     onChange={(e) => setGuestName(e.target.value)}
                     placeholder="Nome do acompanhante"
                     autoFocus
-                    className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm font-mono placeholder:opacity-30 focus:outline-none focus:border-[#c8ff00]/50 transition-colors"
+                    className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm font-mono placeholder:opacity-30 focus:outline-none focus:border-[#3794CF]/60 transition-colors"
                   />
                   <button
                     onClick={() => {
                       setBringingGuest(false);
                       setGuestName("");
                     }}
-                    className="w-10 h-10 rounded-full glass flex items-center justify-center text-lg hover:border-[#ff2d7b] transition-colors cursor-pointer shrink-0"
+                    className="w-10 h-10 rounded-full glass flex items-center justify-center text-lg hover:border-[#CB8CC2] transition-colors cursor-pointer shrink-0"
                     title="Remover acompanhante"
                   >
                     ×
@@ -144,7 +144,7 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
               confirmed
                 ? "bg-emerald-500 text-white cursor-default"
                 : canSubmit
-                  ? "bg-[#c8ff00] text-black hover:shadow-[0_0_40px_rgba(200,255,0,0.3)] cursor-pointer"
+                  ? "bg-[#3794CF] text-white hover:shadow-[0_0_40px_rgba(55,148,207,0.5)] cursor-pointer"
                   : "bg-white/10 text-white/30 cursor-not-allowed"
             }`}
           >

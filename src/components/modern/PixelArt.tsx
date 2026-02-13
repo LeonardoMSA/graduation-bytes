@@ -21,11 +21,11 @@ export function PixelArt() {
   return (
     <section className="py-24 px-6">
       <div className="max-w-3xl mx-auto text-center">
-        <p className="font-mono text-xs tracking-[4px] uppercase text-[#c8ff00] mb-4">
+        <p className="font-mono text-xs tracking-[4px] uppercase text-[#7BB1D9] mb-4">
           Crie!
         </p>
         <h2 className="font-modern text-3xl sm:text-4xl font-bold mb-2 leading-tight">
-          Pixel <span className="text-purple-500">Art</span> 🎨
+          Pixel <span className="text-[#CB8CC2]" style={{ textShadow: '0 0 20px rgba(203,140,194,0.4)' }}>Art</span> 🎨
         </h2>
         <p className="opacity-50 text-sm mb-4">
           Pinte um presente para a Luiza! Clique nos pixels para colorir.
@@ -75,7 +75,7 @@ export function PixelArt() {
             setPixels(Array(256).fill(null));
             milestoneRef.current = false;
           }}
-          className="mt-4 px-5 py-2 rounded-full glass font-mono text-xs cursor-pointer opacity-50 hover:opacity-100 hover:border-[#ff2d7b] transition-all"
+          className="mt-4 px-5 py-2 rounded-full glass font-mono text-xs cursor-pointer opacity-50 hover:opacity-100 hover:border-[#CB8CC2] transition-all"
         >
           Limpar 🗑️
         </button>

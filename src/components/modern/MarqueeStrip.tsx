@@ -8,10 +8,10 @@ export function MarqueeStrip() {
       <div className="flex gap-12 animate-marquee hover:[animation-play-state:paused] w-max">
         {items.map((item, i) => (
           <span key={i} className="flex items-center gap-12">
-            <span className="font-modern text-xl sm:text-2xl font-bold whitespace-nowrap opacity-30 hover:opacity-100 hover:text-[#c8ff00] transition-all duration-300 cursor-default">
+            <span className="font-modern text-xl sm:text-2xl font-bold whitespace-nowrap opacity-30 hover:opacity-100 hover:text-[#3794CF] transition-all duration-300 cursor-default">
               {item}
             </span>
-            <span className="text-[#c8ff00] opacity-30">✦</span>
+            <span className="text-[#7BB1D9] opacity-50">✦</span>
           </span>
         ))}
       </div>

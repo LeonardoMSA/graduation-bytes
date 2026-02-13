@@ -122,7 +122,7 @@ export default function RetroDesktop({
       transition={{ duration: 0.5 }}
       className="min-h-screen relative overflow-hidden"
       style={{
-        background: 'linear-gradient(180deg, #235EDC 0%, #56B0F0 30%, #3A8BC2 100%)',
+        background: 'linear-gradient(180deg, #0668BC 0%, #3794CF 30%, #077BC6 100%)',
         fontFamily: 'Tahoma, "MS Sans Serif", Geneva, sans-serif',
         fontSize: '12px',
         paddingBottom: '36px',

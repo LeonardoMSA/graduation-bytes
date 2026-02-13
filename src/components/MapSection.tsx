@@ -7,7 +7,8 @@ export default function MapSection() {
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-3xl sm:text-4xl font-bold text-center mb-12 font-modern bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent"
+        className="text-3xl sm:text-4xl font-bold text-center mb-12 font-modern bg-clip-text text-transparent"
+        style={{ backgroundImage: 'linear-gradient(to right, #077BC6, #CB8CC2)' }}
       >
         Localização
       </motion.h2>

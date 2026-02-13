@@ -22,7 +22,7 @@ export function Hero() {
         </motion.div>
 
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold font-modern mb-4 leading-tight">
-          <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
+          <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(to right, #CB8CC2, #3794CF, #077BC6)', textShadow: '0 0 40px rgba(55,148,207,0.25)' }}>
             Luiza Omena
           </span>
         </h1>

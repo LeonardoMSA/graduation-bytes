@@ -8,10 +8,10 @@ interface Props {
 }
 
 const THEME = {
-  navy: '#0A246A',
+  navy: '#0668BC',
   deep: '#06122A',
   lilac: '#CBBACE',
-  plum: '#A86AA8',
+  plum: '#CB8CC2',
   paper: '#ECE9D8',
   ink: '#101114',
 };
@@ -38,8 +38,8 @@ export default function LearnMore({ onBack }: Props) {
       style={{
         background: `
           radial-gradient(900px 600px at 20% 10%, rgba(203,186,206,0.28), rgba(0,0,0,0) 55%),
-          radial-gradient(900px 600px at 80% 18%, rgba(168,106,168,0.20), rgba(0,0,0,0) 55%),
-          linear-gradient(180deg, ${THEME.navy} 0%, #071A3A 55%, ${THEME.deep} 100%)
+          radial-gradient(900px 600px at 80% 18%, rgba(203,140,194,0.20), rgba(0,0,0,0) 55%),
+          linear-gradient(180deg, ${THEME.navy} 0%, #0a2744 55%, ${THEME.deep} 100%)
         `,
       }}
     >
@@ -88,7 +88,7 @@ export default function LearnMore({ onBack }: Props) {
             90deg,
             rgba(10,36,106,0) 0%,
             rgba(10,36,106,0.20) 18%,
-            rgba(168,106,168,0.32) 50%,
+            rgba(203,140,194,0.32) 50%,
             rgba(10,36,106,0.20) 82%,
             rgba(10,36,106,0) 100%
           );
@@ -180,7 +180,7 @@ export default function LearnMore({ onBack }: Props) {
               180deg,
               rgba(10,36,106,0) 0%,
               rgba(10,36,106,0.18) 35%,
-              rgba(168,106,168,0.22) 65%,
+              rgba(203,140,194,0.22) 65%,
               rgba(10,36,106,0) 100%
             );
           }

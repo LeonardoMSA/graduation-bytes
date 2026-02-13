@@ -1,5 +1,5 @@
 const THEME = {
-  plum: '#A86AA8',
+  plum: '#CB8CC2',
   lilac: '#CBBACE',
   winDkShadow: '#404040',
 };

@@ -31,7 +31,7 @@ export default function GlitchTransition({ onComplete }: Props) {
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(180deg, #235EDC 0%, #56B0F0 30%, #3A8BC2 100%)",
+                "linear-gradient(180deg, #0668BC 0%, #3794CF 30%, #077BC6 100%)",
               animation: "glitch-1 0.3s infinite steps(1)",
               opacity: phase === 0 ? 1 : 0.5,
             }}
@@ -40,7 +40,7 @@ export default function GlitchTransition({ onComplete }: Props) {
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(180deg, #235EDC 0%, #56B0F0 30%, #3A8BC2 100%)",
+                "linear-gradient(180deg, #0668BC 0%, #3794CF 30%, #077BC6 100%)",
               animation: "glitch-1 0.2s 0.1s infinite steps(1) reverse",
               mixBlendMode: "difference",
               opacity: 0.7,
@@ -72,7 +72,7 @@ export default function GlitchTransition({ onComplete }: Props) {
           {phase === 0 && (
             <p
               className="font-pixel text-2xl sm:text-4xl"
-              style={{ color: "#00ff00" }}
+              style={{ color: "#A6CEE8" }}
             >
               {"> Buscando detalhes da festa..."}
             </p>
@@ -80,7 +80,7 @@ export default function GlitchTransition({ onComplete }: Props) {
           {phase === 1 && (
             <p
               className="font-pixel text-2xl sm:text-4xl"
-              style={{ color: "#00ff00" }}
+              style={{ color: "#A6CEE8" }}
             >
               {"> Carregando endereço e horário..."}
             </p>
@@ -91,7 +91,7 @@ export default function GlitchTransition({ onComplete }: Props) {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               className="font-pixel text-2xl sm:text-4xl"
-              style={{ color: "#a78bfa" }}
+              style={{ color: "#CB8CC2" }}
             >
               {"> Preparando a página do convite..."}
             </motion.p>
@@ -102,7 +102,7 @@ export default function GlitchTransition({ onComplete }: Props) {
               animate={{ opacity: 1, y: 0 }}
               className="font-modern"
             >
-              <p className="text-3xl sm:text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <p className="text-3xl sm:text-5xl font-bold bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(to right, #CB8CC2, #CBBACE)' }}>
                 Preparados?
               </p>
             </motion.div>
@@ -140,7 +140,7 @@ export default function GlitchTransition({ onComplete }: Props) {
               style={{
                 width: Math.random() * 6 + 2,
                 height: Math.random() * 6 + 2,
-                background: ["#8b5cf6", "#ec4899", "#22d3ee", "#a78bfa"][i % 4],
+                background: ["#077BC6", "#CB8CC2", "#3794CF", "#CBBACE"][i % 4],
               }}
             />
           ))}

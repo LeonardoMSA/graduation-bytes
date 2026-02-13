@@ -32,8 +32,8 @@ export default function ModernSection({ onBackToRetro }: ModernSectionProps) {
       className="min-h-screen relative dark"
       style={{
         background:
-          "linear-gradient(180deg, hsl(230,25%,7%) 0%, hsl(250,30%,10%) 50%, hsl(230,25%,7%) 100%)",
-        color: "hsl(210,40%,98%)",
+          "linear-gradient(180deg, #06122A 0%, #0a2744 50%, #06122A 100%)",
+        color: "#f0f6fc",
       }}
     >
       {showConfetti && <ConfettiOverlay />}

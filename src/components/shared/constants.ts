@@ -1,8 +1,19 @@
 // Shared constants used across multiple components
+// Paleta: azuis (#A6CEE8, #7BB1D9, #3794CF, #077BC6, #0668BC) + lilases (#CBBACE, #CB8CC2)
+
+export const PALETTE = {
+  bluePastel: '#A6CEE8',
+  blueMedium: '#7BB1D9',
+  blueVivid: '#3794CF',
+  blueIntense: '#077BC6',
+  blueDeep: '#0668BC',
+  lilacLight: '#CBBACE',
+  lilacMedium: '#CB8CC2',
+} as const;
 
 export const THEME = {
-  desktop: '#3A6EA5',
-  titleBar: '#0A246A',
+  desktop: PALETTE.blueVivid,
+  titleBar: PALETTE.blueDeep,
   titleText: '#FFFFFF',
   winFace: '#D4D0C8',
   winFace2: '#ECE9D8',
@@ -12,19 +23,25 @@ export const THEME = {
   winLight: '#F5F5F5',
   text: '#000000',
   subText: '#3B3B3B',
-  lilac: '#CBBACE',
-  plum: '#A86AA8',
-  progress1: '#2D78B7',
-  progress2: '#0B6FB4',
-  navy: '#0A246A',
+  lilac: PALETTE.lilacLight,
+  plum: PALETTE.lilacMedium,
+  progress1: PALETTE.blueIntense,
+  progress2: PALETTE.blueDeep,
+  navy: PALETTE.blueDeep,
   deep: '#06122A',
   paper: '#ECE9D8',
   ink: '#101114',
 };
 
 export const PIXEL_COLORS = [
-  '#c8ff00', '#ff2d7b', '#00e5ff', '#a855f7',
-  '#f59e0b', '#10b981', '#ef4444', '#ffffff',
+  PALETTE.bluePastel,
+  PALETTE.lilacMedium,
+  PALETTE.blueVivid,
+  PALETTE.lilacLight,
+  PALETTE.blueMedium,
+  PALETTE.blueIntense,
+  PALETTE.blueDeep,
+  '#ffffff',
 ];
 
 export const STICKER_EMOJIS = ['⭐', '🎉', '💜', '🔥', '🚀'];

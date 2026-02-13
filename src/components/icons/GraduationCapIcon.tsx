@@ -1,7 +1,7 @@
 const THEME = {
   winDkShadow: '#404040',
   lilac: '#CBBACE',
-  plum: '#A86AA8',
+  plum: '#CB8CC2',
 };
 
 export function GraduationCapIcon() {

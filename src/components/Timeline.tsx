@@ -41,13 +41,14 @@ export default function Timeline() {
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-3xl sm:text-4xl font-bold text-center mb-16 font-modern bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent"
+        className="text-3xl sm:text-4xl font-bold text-center mb-16 font-modern bg-clip-text text-transparent"
+        style={{ backgroundImage: 'linear-gradient(to right, #CB8CC2, #3794CF, #077BC6)' }}
       >
         Minha Trajetória
       </motion.h2>
 
       <div className="relative">
-        <div className="hidden sm:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-purple-500/50 via-pink-500/30 to-transparent" />
+        <div className="hidden sm:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-[#CB8CC2]/50 via-[#7BB1D9]/30 to-transparent" />
         {milestones.map((item, i) => (
           <TimelineItem key={item.year} item={item} index={i} />
         ))}

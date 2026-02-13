@@ -17,20 +17,20 @@ export function Taskbar({ onStartClick, time }: TaskbarProps) {
       className="fixed bottom-0 left-0 right-0 z-40"
       style={{
         background:
-          'linear-gradient(180deg, #3168D5 0%, #2456B8 3%, #1941A0 50%, #1941A0 100%)',
+          'linear-gradient(180deg, #077BC6 0%, #0668BC 3%, #0668BC 50%, #0668BC 100%)',
         height: '34px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '0 4px',
-        borderTop: '1px solid #5B9FFF',
+        borderTop: '1px solid #7BB1D9',
       }}
     >
       <button
         onClick={onStartClick}
         title="Iniciar (voltar pro loader)"
         style={{
-          background: 'linear-gradient(180deg, #3C9C3C 0%, #2D7E2D 50%, #1B601B 100%)',
+          background: 'linear-gradient(180deg, #3794CF 0%, #077BC6 50%, #0668BC 100%)',
           border: 'none',
           borderRadius: '0 8px 8px 0',
           padding: '2px 10px 2px 8px',

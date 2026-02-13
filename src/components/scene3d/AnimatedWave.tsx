@@ -24,7 +24,7 @@ export function AnimatedWave() {
   return (
     <mesh ref={mesh} rotation={[-Math.PI / 2.5, 0, 0]} position={[0, -3, 0]}>
       <planeGeometry args={[28, 28, 80, 80]} />
-      <meshStandardMaterial color="#6366f1" wireframe transparent opacity={0.12} />
+      <meshStandardMaterial color="#3794CF" wireframe transparent opacity={0.12} />
     </mesh>
   );
 }
