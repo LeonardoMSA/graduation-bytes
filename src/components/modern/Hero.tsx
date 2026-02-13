@@ -9,17 +9,32 @@ export function Hero() {
         transition={{ duration: 0.8, delay: 0.3 }}
         className="text-center max-w-3xl mx-auto"
       >
-        <motion.div
-          animate={{ y: [0, -8, 0] }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="text-6xl sm:text-7xl mb-6"
-        >
-          🎓
-        </motion.div>
+        <div className="flex items-center justify-center gap-3 sm:gap-4 mb-6">
+          <motion.img
+            src="/assets/chapeu_festa.png"
+            alt="Chapéu de festa"
+            animate={{ y: [0, -8, 0] }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="w-16 h-16 sm:w-24 sm:h-24 object-contain"
+          />
+          <motion.img
+            src="/assets/chapeu_formatura.png"
+            alt="Chapéu de formatura"
+            animate={{ y: [0, -8, 0] }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 0.4,
+            }}
+            className="w-16 h-16 sm:w-24 sm:h-24 object-contain mt-8 sm:mt-16"
+          />
+
+        </div>
 
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold font-modern mb-4 leading-tight">
           <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(to right, #CB8CC2, #3794CF, #077BC6)', textShadow: '0 0 40px rgba(55,148,207,0.25)' }}>
