@@ -43,7 +43,7 @@ export function Hero() {
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
-          <p className="font-modern text-xs mb-2">Scroll para explorar</p>
+          <p className="font-modern text-xs mb-2">Confirma aqui embaixo!</p>
           <span className="text-2xl">↓</span>
         </motion.div>
       </motion.div>

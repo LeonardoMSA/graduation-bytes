@@ -56,9 +56,6 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
               Se precisar alterar algo (nome, acompanhante, etc.), entre em
               contato comigo pelo WhatsApp.
             </p>
-            <p className="font-mono text-xs opacity-50">
-              Ou mande uma msg no WhatsApp 📱
-            </p>
           </div>
         </div>
       </section>
@@ -150,10 +147,6 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
           >
             {confirmed ? "✅ Presença Confirmada!" : "Confirmar Presença 🎉"}
           </motion.button>
-
-          <p className="font-mono text-xs opacity-30 mt-4">
-            Ou mande uma msg no WhatsApp 📱
-          </p>
         </div>
       </div>
     </section>

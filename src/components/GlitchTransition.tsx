@@ -11,10 +11,12 @@ export default function GlitchTransition({ onComplete }: Props) {
   useEffect(() => {
     const timers = [
       setTimeout(() => setPhase(1), 1200),
-      setTimeout(() => setPhase(2), 2200),
-      setTimeout(() => setPhase(3), 3100),
-      setTimeout(onComplete, 4000),
+      setTimeout(() => setPhase(2), 2400),
+      setTimeout(() => setPhase(3), 4300),
+      setTimeout(() => setPhase(4), 6000),
+      setTimeout(onComplete, 7000),
     ];
+
     return () => timers.forEach(clearTimeout);
   }, [onComplete]);
 
@@ -97,6 +99,17 @@ export default function GlitchTransition({ onComplete }: Props) {
             </motion.p>
           )}
           {phase === 3 && (
+            <motion.div
+              initial={{ opacity: 0.2, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="font-modern"
+            >
+              <p className="text-3xl sm:text-5xl font-bold bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(to right, #CB8CC2, #CBBACE)' }}>
+                Lembrem de confirmar a presença!
+              </p>
+            </motion.div>
+          )}
+          {phase === 4 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
