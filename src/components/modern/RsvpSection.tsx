@@ -49,12 +49,21 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
 
           <div className="glass rounded-3xl p-8 sm:p-12">
             <p className="text-[#3794CF] font-modern font-bold mb-4">
-              ✅ Você só precisa confirmar uma vez. Sua presença já está
-              confirmada!
+              Você só precisa confirmar uma vez.
+              <br/>Sua presença já está confirmada!
             </p>
             <p className="opacity-70 mb-6 leading-relaxed">
               Se precisar alterar algo (nome, acompanhante, etc.), entre em
-              contato comigo pelo WhatsApp.
+              contato comigo pelo{" "}
+              <a
+                href="https://wa.me/5581986889451"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#7BB1D9] hover:text-[#3794CF] underline underline-offset-2 transition-colors"
+              >
+                WhatsApp
+              </a>
+              .
             </p>
           </div>
         </div>

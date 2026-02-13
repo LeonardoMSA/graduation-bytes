@@ -5,9 +5,33 @@ import { ClassicTitleBarButton } from './retro/ClassicTitleBarButton';
 import { DesktopIcons } from './retro/DesktopIcons';
 import { RSVPForm } from './retro/RSVPForm';
 import { ConfirmModal } from './retro/ConfirmModal';
+import { RetroGalleryModal, type GalleryPhoto } from './retro/RetroGalleryModal';
 import { Taskbar } from './retro/Taskbar';
 import { THEME } from './shared/constants';
 import { getStoredRsvp, saveRsvp } from '@/lib/rsvpStorage';
+
+const BANGUELA_PHOTOS: GalleryPhoto[] = [
+  { src: '/photos/banguela/01.png', alt: 'Banguela' },
+  { src: '/photos/banguela/02.png', alt: 'Banguela' },
+  { src: '/photos/banguela/03.png', alt: 'Banguela' },
+  { src: '/photos/banguela/04.png', alt: 'Banguela' },
+  { src: '/photos/banguela/05.png', alt: 'Banguela' },
+  { src: '/photos/banguela/06.png', alt: 'Banguela' },
+  { src: '/photos/banguela/07.png', alt: 'Banguela' },
+  { src: '/photos/banguela/08.png', alt: 'Banguela' },
+  { src: '/photos/banguela/09.png', alt: 'Banguela' },
+  { src: '/photos/banguela/10.png', alt: 'Banguela' },
+  { src: '/photos/banguela/11.png', alt: 'Banguela' },
+  { src: '/photos/banguela/12.png', alt: 'Banguela' },
+  { src: '/photos/banguela/13.png', alt: 'Banguela' },
+];
+
+const AMIGOS_PHOTOS: GalleryPhoto[] = [
+  { src: '/photos/amigos/andre.jpeg', alt: 'Andre' },
+  { src: '/photos/amigos/sofia.jpeg', alt: 'Sofia' },
+  { src: '/photos/amigos/geraldo.jpeg', alt: 'Geraldo' },
+  { src: '/photos/amigos/leo.jpeg', alt: 'Leo' },
+];
 
 interface Props {
   onEvolve: () => void;
@@ -31,6 +55,8 @@ export default function RetroDesktop({
   const [alreadyConfirmed, setAlreadyConfirmed] = useState(false);
   const [time, setTime] = useState(new Date());
   const [clickCount, setClickCount] = useState(0);
+  const [inviteVisible, setInviteVisible] = useState(true);
+  const [easterEggGallery, setEasterEggGallery] = useState<'banguela' | 'amigos' | null>(null);
 
   const windowWidth = useMemo(() => 'min(520px, 100%)', []);
   const bodyPad = useMemo(() => 'clamp(12px, 3.8vw, 18px)', []);
@@ -178,9 +204,13 @@ export default function RetroDesktop({
         }
       `}</style>
 
-      <DesktopIcons />
+      <DesktopIcons
+        onFilesClick={() => setEasterEggGallery('banguela')}
+        onTrashClick={() => setEasterEggGallery('amigos')}
+      />
 
       <div className="flex items-center justify-center min-h-screen px-3 py-10">
+        {inviteVisible && (
         <div
           className="retro-wrap"
           style={{
@@ -221,7 +251,14 @@ export default function RetroDesktop({
             <div style={{ display: 'flex', gap: 6 }}>
               <ClassicTitleBarButton label="_" />
               <ClassicTitleBarButton label="□" />
-              <ClassicTitleBarButton label="✕" />
+              <button
+                type="button"
+                aria-label="Fechar"
+                onClick={() => setInviteVisible(false)}
+                style={{ all: 'unset', cursor: 'pointer' }}
+              >
+                <ClassicTitleBarButton label="✕" />
+              </button>
             </div>
           </div>
 
@@ -348,6 +385,7 @@ export default function RetroDesktop({
             </div>
           </div>
         </div>
+        )}
       </div>
 
       <ConfirmModal
@@ -364,7 +402,25 @@ export default function RetroDesktop({
         }}
       />
 
-      <Taskbar onStartClick={handleStartClick} time={time} />
+      <RetroGalleryModal
+        show={easterEggGallery === 'banguela'}
+        onClose={() => setEasterEggGallery(null)}
+        title="Como Treinar o Seu Dragão"
+        photos={BANGUELA_PHOTOS}
+      />
+      <RetroGalleryModal
+        show={easterEggGallery === 'amigos'}
+        onClose={() => setEasterEggGallery(null)}
+        title="Amigos – Andre, Sofia, Geraldo, Leo"
+        photos={AMIGOS_PHOTOS}
+      />
+
+      <Taskbar
+        onStartClick={handleStartClick}
+        time={time}
+        inviteVisible={inviteVisible}
+        onRestoreInvite={() => setInviteVisible(true)}
+      />
     </motion.div>
   );
 }

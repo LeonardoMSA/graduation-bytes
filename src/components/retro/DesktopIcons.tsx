@@ -1,21 +1,35 @@
-export function DesktopIcons() {
+import React from 'react';
+
+export interface DesktopIconsProps {
+  onFilesClick?: () => void;
+  onTrashClick?: () => void;
+}
+
+const ICONS = [
+  { icon: '💻', label: 'Meu Computador', onClick: undefined as (() => void) | undefined },
+  { icon: '📁', label: 'Meus Docs', onClick: undefined as (() => void) | undefined },
+  { icon: '🗑️', label: 'Lixeira', onClick: undefined as (() => void) | undefined },
+];
+
+export function DesktopIcons(props: DesktopIconsProps): React.ReactElement {
+  const { onFilesClick, onTrashClick } = props;
+  const items = [
+    { ...ICONS[0] },
+    { ...ICONS[1], onClick: onFilesClick },
+    { ...ICONS[2], onClick: onTrashClick },
+  ];
+
   return (
     <div className="top-icons" aria-label="Ícones da área de trabalho">
-      {[
-        { icon: '💻', label: 'Meu Computador' },
-        { icon: '📁', label: 'Meus Docs' },
-        { icon: '🗑️', label: 'Lixeira' },
-      ].map(item => (
+      {items.map((item) => (
         <button
           key={item.label}
           type="button"
           className="top-icon"
-          onClick={() => {
-            // placeholder: plugar easter eggs depois
-          }}
+          onClick={item.onClick}
           style={{
             all: 'unset',
-            cursor: 'pointer',
+            cursor: item.onClick ? 'pointer' : 'default',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',

@@ -3,9 +3,11 @@ import { StartCapIcon } from '@/components/icons/StartCapIcon';
 interface TaskbarProps {
   onStartClick: () => void;
   time: Date;
+  inviteVisible?: boolean;
+  onRestoreInvite?: () => void;
 }
 
-export function Taskbar({ onStartClick, time }: TaskbarProps) {
+export function Taskbar({ onStartClick, time, inviteVisible = true, onRestoreInvite }: TaskbarProps) {
   const fmtClock = (d: Date) =>
     d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
@@ -60,8 +62,10 @@ export function Taskbar({ onStartClick, time }: TaskbarProps) {
           minWidth: 0,
         }}
       >
-        <div
-          title="Convite.exe"
+        <button
+          type="button"
+          onClick={inviteVisible ? undefined : onRestoreInvite}
+          title={inviteVisible ? 'Convite.exe (aberto)' : 'Clique para abrir Convite.exe'}
           style={{
             height: 26,
             display: 'flex',
@@ -69,22 +73,24 @@ export function Taskbar({ onStartClick, time }: TaskbarProps) {
             gap: 8,
             padding: '0 10px',
             borderRadius: 6,
-            background:
-              'linear-gradient(180deg, rgba(255,255,255,0.28) 0%, rgba(0,0,0,0.08) 100%)',
+            background: inviteVisible
+              ? 'linear-gradient(180deg, rgba(255,255,255,0.28) 0%, rgba(0,0,0,0.08) 100%)'
+              : 'linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(0,0,0,0.15) 100%)',
+            border: '1px solid rgba(0,0,0,0.25)',
             borderTop: '1px solid rgba(255,255,255,0.35)',
             borderLeft: '1px solid rgba(255,255,255,0.25)',
-            borderRight: '1px solid rgba(0,0,0,0.25)',
-            borderBottom: '1px solid rgba(0,0,0,0.25)',
             color: '#fff',
             fontSize: 11,
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
+            cursor: inviteVisible ? 'default' : 'pointer',
+            fontFamily: 'inherit',
           }}
         >
           <span aria-hidden="true">📨</span>
           <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>Convite.exe</span>
-        </div>
+        </button>
       </div>
 
       <div
