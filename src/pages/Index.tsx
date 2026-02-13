@@ -48,8 +48,7 @@ const Index = () => {
         {phase === "modern" && (
           <ModernSection
             key="modern"
-            // opcional: se quiser botão de voltar pra retro/learnMore
-            // onBack={() => setPhase('retro')}
+            onBackToRetro={() => setPhase("loading")}
           />
         )}
       </AnimatePresence>

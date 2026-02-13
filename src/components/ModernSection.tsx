@@ -11,13 +11,17 @@ import { Card3D } from './modern/Card3D';
 import { BubbleSection } from './modern/BubbleSection';
 import { SecretConsole } from './modern/SecretConsole';
 import { PixelArt } from './modern/PixelArt';
-import { StickerTray } from './modern/StickerTray';
 import { AchievementPopup } from './modern/AchievementPopup';
 import { Hero } from './modern/Hero';
 import { Footer } from './modern/Footer';
 import { TOTAL_EGGS } from './shared/constants';
 
-export default function ModernSection() {
+interface ModernSectionProps {
+  /** Go back to retro interface (through the loader) */
+  onBackToRetro?: () => void;
+}
+
+export default function ModernSection({ onBackToRetro }: ModernSectionProps) {
   const konamiActive = useKonamiCode();
   const [showConfetti, setShowConfetti] = useState(false);
   const [eggsFound, setEggsFound] = useState<Set<string>>(new Set());
@@ -146,13 +150,6 @@ export default function ModernSection() {
       <Scene3D />
       {showConfetti && <ConfettiOverlay />}
 
-      <div className="fixed top-5 right-5 z-[9000] font-mono text-xs text-[#c8ff00] px-4 py-2 rounded-xl glass flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity">
-        🥚 <span className="font-bold text-base">{eggsFound.size}</span>/
-        {TOTAL_EGGS}
-      </div>
-
-      <StickerTray />
-
       <AchievementPopup
         icon={achievement?.icon || ''}
         name={achievement?.name || ''}
@@ -198,6 +195,41 @@ export default function ModernSection() {
       />
 
       <SecretConsole onEasterEgg={findEgg} />
+
+      {onBackToRetro && (
+        <section
+          className="py-24 px-6"
+          style={{ background: 'hsl(250,30%,10%)' }}
+        >
+          <div className="max-w-3xl mx-auto text-center">
+            <p className="font-mono text-xs tracking-[4px] uppercase text-[#c8ff00] mb-4">
+              Navegação
+            </p>
+            <h2 className="font-modern text-3xl sm:text-4xl font-bold mb-2 leading-tight">
+              Voltar ao <span className="text-[#c8ff00]">início</span>
+            </h2>
+            <p className="opacity-50 text-sm mb-8 max-w-lg mx-auto">
+              Gostou da interface moderna? Você pode voltar à tela de carregamento e rever a experiência retro quando quiser.
+            </p>
+
+            <div className="max-w-[700px] mx-auto rounded-2xl overflow-hidden border border-white/[0.08] bg-white/[0.03] p-8 text-left">
+              <h3 className="font-modern text-xl font-semibold mb-2 text-white/90">
+                Interface retro
+              </h3>
+              <p className="text-sm opacity-60 mb-6">
+                A primeira tela que você viu — o loader e o desktop estilo anos 80/90. Clique abaixo para recarregar e ver de novo.
+              </p>
+              <button
+                type="button"
+                onClick={onBackToRetro}
+                className="font-mono text-sm text-[#c8ff00] px-6 py-3 rounded-xl border border-[#c8ff00]/30 bg-[#c8ff00]/5 hover:bg-[#c8ff00]/10 hover:border-[#c8ff00]/50 transition-all cursor-pointer"
+              >
+                ← Ver interface retro
+              </button>
+            </div>
+          </div>
+        </section>
+      )}
 
       <PixelArt
         onMilestone={() =>
