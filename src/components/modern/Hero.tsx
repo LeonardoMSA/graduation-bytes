@@ -1,13 +1,49 @@
 import { motion } from "framer-motion";
 
+const BALLOON_SRC = "/assets/22_balloon.png";
+
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-4">
+    <section className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
+      {/* Background balloon icons - decorative, semi-transparent, responsive */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden>
+        <img
+          src={BALLOON_SRC}
+          alt=""
+          className="absolute opacity-[0.18] w-20 h-auto sm:w-28 md:w-32 lg:w-36 top-[8%] left-[4%] sm:top-[10%] sm:left-[6%] max-w-[120px]"
+        />
+        <img
+          src={BALLOON_SRC}
+          alt=""
+          className="absolute opacity-[0.14] w-16 h-auto sm:w-24 md:w-28 top-[12%] right-[2%] sm:right-[5%] max-w-[100px] rotate-12"
+        />
+        <img
+          src={BALLOON_SRC}
+          alt=""
+          className="absolute opacity-[0.16] w-20 h-auto sm:w-24 md:w-28 bottom-[18%] left-[2%] sm:left-[4%] max-w-[110px] -rotate-6"
+        />
+        <img
+          src={BALLOON_SRC}
+          alt=""
+          className="absolute opacity-[0.12] w-20 h-auto sm:w-28 md:w-32 bottom-[12%] right-[6%] sm:right-[8%] max-w-[115px] rotate-[-8deg]"
+        />
+        <img
+          src={BALLOON_SRC}
+          alt=""
+          className="absolute opacity-[0.1] w-14 h-auto sm:w-20 left-[12%] top-1/2 -translate-y-1/2 max-w-[80px] -rotate-12 hidden sm:block"
+        />
+        <img
+          src={BALLOON_SRC}
+          alt=""
+          className="absolute opacity-[0.1] w-14 h-auto sm:w-20 right-[10%] top-1/2 -translate-y-1/2 max-w-[80px] rotate-[6deg] hidden sm:block"
+        />
+      </div>
+
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.3 }}
-        className="text-center max-w-3xl mx-auto"
+        className="relative z-10 text-center max-w-3xl mx-auto"
       >
         <div className="flex items-center justify-center gap-3 sm:gap-4 mb-6">
           <motion.img
