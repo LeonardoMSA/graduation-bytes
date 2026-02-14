@@ -47,15 +47,16 @@ const milestones = [
   {
     year: '',
     title: 'Conheceu pessoas incríveis',
-    description: 'que vai levar para o resto da vida',
+    description: 'que viraram rotina e vão tornar a vida mais especial sempre',
     image: '/timeline/novos_amigos.png',
   },
   {
     year: '',
     title: 'Conheceu o amor',
-    description: 'que faz cada momento mais especial sempre',
+    description: 'que transformou os dias comuns nos mais especiais',
     image: '/timeline/amor.png',
   },
+
   {
     year: '2026',
     title: 'E finalmente tá se formando em Ciência da Computação e completando 22 anos!',
@@ -78,7 +79,8 @@ export default function Timeline() {
       </motion.h2>
 
       <div className="relative">
-        <div className="hidden sm:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-[#CB8CC2]/50 via-[#7BB1D9]/30 to-transparent" />
+        {/* Linha fina no centro: no celular também, conectando os itens conforme entram */}
+        <div className="absolute left-1/2 top-0 bottom-0 w-px sm:w-px bg-gradient-to-b from-[#CB8CC2]/50 via-[#7BB1D9]/30 to-transparent -translate-x-1/2" />
         {milestones.map((item, i) => (
           <TimelineItem key={`${item.title}-${i}`} item={item} index={i} />
         ))}
