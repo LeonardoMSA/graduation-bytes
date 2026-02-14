@@ -3,34 +3,64 @@ import { TimelineItem } from './sections/TimelineItem';
 
 const milestones = [
   {
-    year: '2022',
-    title: 'Início da Jornada',
-    description: 'Primeiro contato com a Ciência da Computação. Tudo começou com um "Hello, World!"',
-    emoji: '🚀',
+    year: '2004',
+    title: 'O começo de tudo',
+    description: 'Chegou ao mundo pronta para conquistar tudo (ou pelo menos tentar)',
+    image: '/timeline/nasceu.png',
   },
   {
-    year: '2023',
-    title: 'Primeiros Projetos',
-    description: 'Aprendendo algoritmos, estruturas de dados e descobrindo a paixão pelo código.',
-    emoji: '💡',
+    year: '',
+    title: 'Começou a tentar andar',
+    description: 'Os primeiros passos... e tombos. Muitos tombos.',
+    image: '/timeline/andar.png',
   },
   {
-    year: '2024',
-    title: 'Evolução',
-    description: 'Projetos mais complexos, hackathons, e a descoberta de novas áreas da computação.',
-    emoji: '📈',
+    year: '',
+    title: 'Descobriu que tinha a melhor mãe do mundo',
+    description: 'Que faz de tudo por ela desde o início',
+    image: '/timeline/mae.png',
   },
   {
-    year: '2025',
-    title: 'Últimos Semestres',
-    description: 'TCC, estágios, amizades para a vida toda e muuuito café ☕',
-    emoji: '🎯',
+    year: '',
+    title: 'Desde sempre amando os animais',
+    description: 'O amor por bichinhos veio antes de aprender a falar direito',
+    image: '/timeline/animais.png',
+  },
+  {
+    year: '',
+    title: 'Tentou a carreira de modelo juvenil que não decolou',
+    description: 'Pelo menos as fotos ficaram fofas pra memória',
+    image: '/timeline/modelo.png',
+  },
+  {
+    year: '',
+    title: 'Aproveitou e amou muito a vida até agora',
+    description: 'Junto com pessoas incríveis que trouxeram muito amor em todos os momentos',
+    image: '/timeline/pessoas.png',
+  },
+  {
+    year: '',
+    title: 'Decidiu o que queria da vida',
+    description: 'e não se arrependeu nem um pouco dessa escolha',
+    image: '/timeline/curso.png',
+  },
+  {
+    year: '',
+    title: 'Conheceu pessoas incríveis',
+    description: 'que vai levar para o resto da vida',
+    image: '/timeline/novos_amigos.png',
+  },
+  {
+    year: '',
+    title: 'Conheceu o amor',
+    description: 'que faz cada momento mais especial sempre',
+    image: '/timeline/amor.png',
   },
   {
     year: '2026',
-    title: 'Formatura + Aniversário!',
-    description: 'O grande dia chegou! Hora de celebrar tudo isso e mais um ano de vida 🎂',
-    emoji: '🎓',
+    title: 'E finalmente tá se formando em Ciência da Computação e completando 22 anos!',
+    description: 'Agora é continuar crescendo e amando a vida cada vez mais!',
+    image: '/timeline/2026.png',
   },
 ];
 
@@ -41,16 +71,16 @@ export default function Timeline() {
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-3xl sm:text-4xl font-bold text-center mb-16 font-modern bg-clip-text text-transparent"
+        className="text-3xl sm:text-4xl font-bold text-center mb-16 font-timeline bg-clip-text text-transparent"
         style={{ backgroundImage: 'linear-gradient(to right, #CB8CC2, #3794CF, #077BC6)' }}
       >
-        Minha Trajetória
+        Vida de Lu
       </motion.h2>
 
       <div className="relative">
         <div className="hidden sm:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-[#CB8CC2]/50 via-[#7BB1D9]/30 to-transparent" />
         {milestones.map((item, i) => (
-          <TimelineItem key={item.year} item={item} index={i} />
+          <TimelineItem key={`${item.title}-${i}`} item={item} index={i} />
         ))}
       </div>
     </section>

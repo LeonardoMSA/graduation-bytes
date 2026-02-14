@@ -105,6 +105,11 @@
   font-family: 'Space Grotesk', sans-serif;
 }
 
+/* Softer font for timeline */
+.font-timeline {
+  font-family: 'DM Sans', sans-serif;
+}
+
 .font-pixel {
   font-family: 'VT323', monospace;
 }

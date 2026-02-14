@@ -144,7 +144,7 @@ export function SecretConsole({ onBackToRetro }: SecretConsoleProps) {
     <section className="py-24 px-6" style={{ background: "hsl(250,30%,10%)" }}>
       <div className="max-w-3xl mx-auto text-center">
         <p className="font-mono text-xs tracking-[4px] uppercase text-[#7BB1D9] mb-4">
-          Para devs 🤓
+          Para os devs
         </p>
         <h2 className="font-modern text-3xl sm:text-4xl font-bold mb-2 leading-tight">
           Terminal <span className="text-[#3794CF]">integrado</span>

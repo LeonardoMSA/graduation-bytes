@@ -6,7 +6,7 @@ interface TimelineItemProps {
     year: string;
     title: string;
     description: string;
-    emoji: string;
+    image: string;
   };
   index: number;
 }
@@ -25,11 +25,17 @@ export function TimelineItem({ item, index }: TimelineItemProps) {
       transition={{ duration: 0.6, delay: 0.1 }}
     >
       <div className={`flex-1 ${isLeft ? 'sm:text-right' : 'sm:text-left'} text-center`}>
-        <div className="glass rounded-2xl p-5 sm:p-6 inline-block">
-          <span className="text-3xl mb-2 block">{item.emoji}</span>
-          <span className="text-xs font-mono opacity-60 block mb-1">{item.year}</span>
-          <h3 className="text-lg font-bold font-modern mb-1">{item.title}</h3>
-          <p className="text-sm opacity-70 font-modern">{item.description}</p>
+        <div className="glass rounded-2xl p-5 sm:p-6 inline-block overflow-hidden">
+          <img
+            src={item.image}
+            alt={item.title}
+            className="w-32 h-32 sm:w-40 sm:h-40 object-cover rounded-xl mb-3 mx-auto sm:mx-0"
+          />
+          {item.year && (
+            <span className="text-xs font-timeline opacity-60 block mb-1 tracking-wider">{item.year}</span>
+          )}
+          <h3 className="text-lg font-semibold font-timeline mb-1">{item.title}</h3>
+          <p className="text-sm opacity-70 font-timeline">{item.description}</p>
         </div>
       </div>
 
