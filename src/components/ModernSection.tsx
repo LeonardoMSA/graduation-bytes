@@ -9,6 +9,7 @@ import { SecretConsole } from "./modern/SecretConsole";
 import { PixelArt } from "./modern/PixelArt";
 import { Hero } from "./modern/Hero";
 import { Footer } from "./modern/Footer";
+import { PhotoCarousel } from "./modern/PhotoCarousel";
 import { TOTAL_EGGS } from "./shared/constants";
 
 interface ModernSectionProps {
@@ -51,6 +52,8 @@ export default function ModernSection({ onBackToRetro }: ModernSectionProps) {
       <PixelArt />
 
       <MapSection />
+
+      <PhotoCarousel />
 
       <Footer />
     </motion.div>
