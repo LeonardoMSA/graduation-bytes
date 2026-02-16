@@ -33,17 +33,6 @@ export const THEME = {
   ink: '#101114',
 };
 
-export const PIXEL_COLORS = [
-  PALETTE.bluePastel,
-  PALETTE.lilacMedium,
-  PALETTE.blueVivid,
-  PALETTE.lilacLight,
-  PALETTE.blueMedium,
-  PALETTE.blueIntense,
-  PALETTE.blueDeep,
-  '#ffffff',
-];
-
 export const STICKER_EMOJIS = ['⭐', '🎉', '💜', '🔥', '🚀'];
 
 export const MARQUEE_ITEMS = [
