@@ -3,8 +3,6 @@ import { THEME } from '@/components/shared/constants';
 interface RSVPFormProps {
   name: string;
   setName: (name: string) => void;
-  attendance: string;
-  setAttendance: (attendance: string) => void;
   hasGuest: boolean;
   setHasGuest: (has: boolean) => void;
   guestName: string;
@@ -18,8 +16,6 @@ interface RSVPFormProps {
 export function RSVPForm({
   name,
   setName,
-  attendance,
-  setAttendance,
   hasGuest,
   setHasGuest,
   guestName,
@@ -41,7 +37,7 @@ export function RSVPForm({
     outline: 'none',
   };
 
-  const canOpenConfirmModal = Boolean(name && attendance) && !alreadyConfirmed;
+  const canOpenConfirmModal = Boolean(name) && !alreadyConfirmed;
 
   if (alreadyConfirmed) {
     return (
@@ -92,31 +88,6 @@ export function RSVPForm({
           }}
           style={xpInput}
         />
-      </div>
-
-      <div className="mb-2.5">
-        <label className="block mb-1 text-xs">Confirmar presença:</label>
-
-        <div className="flex gap-4" style={{ flexWrap: 'wrap', rowGap: 8 }}>
-          {[
-            ['yes', 'Sim ✅'],
-            ['no', 'Não ❌'],
-          ].map(([val, lbl]) => (
-            <label key={val} className="flex items-center gap-2 text-xs cursor-pointer">
-              <input
-                type="radio"
-                name="att"
-                value={val}
-                checked={attendance === val}
-                onChange={e => {
-                  setAttendance(e.target.value);
-                  setIsConfirmed(false);
-                }}
-              />
-              {lbl}
-            </label>
-          ))}
-        </div>
       </div>
 
       <div className="mb-2.5">

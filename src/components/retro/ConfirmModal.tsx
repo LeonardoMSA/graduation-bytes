@@ -7,7 +7,6 @@ interface ConfirmModalProps {
   show: boolean;
   onClose: () => void;
   name: string;
-  attendance: string;
   hasGuest: boolean;
   guestName: string;
   onConfirm: () => void;
@@ -18,7 +17,6 @@ export function ConfirmModal({
   show,
   onClose,
   name,
-  attendance,
   hasGuest,
   guestName,
   onConfirm,
@@ -37,14 +35,6 @@ export function ConfirmModal({
     fontSize: '11px',
     cursor: 'pointer',
     width: 'auto',
-  };
-
-  const xpBtnDisabled: React.CSSProperties = {
-    ...xpBtn,
-    width: '100%',
-    opacity: 0.55,
-    cursor: 'not-allowed',
-    filter: 'grayscale(0.15)',
   };
 
   return (
@@ -103,12 +93,10 @@ export function ConfirmModal({
 
           <div style={{ padding: 'clamp(12px, 3.8vw, 18px)', background: THEME.winFace2 }}>
             <div style={{ fontSize: 13, fontWeight: 700, color: THEME.text }}>
-              {attendance === 'yes'
-                ? `Obrigada, ${name}! Presença confirmada ✅`
-                : `Obrigada, ${name}! Tá anotado aqui.`}
+              {`Obrigada, ${name}! Presença confirmada ✅`}
             </div>
 
-            {hasGuest && guestName && attendance === 'yes' && (
+            {hasGuest && guestName && (
               <div style={{ marginTop: 8, fontSize: 12, color: THEME.subText }}>
                 Acompanhante: <strong>{guestName}</strong>
               </div>
@@ -131,25 +119,12 @@ export function ConfirmModal({
                   onClose();
                   onEvolve();
                 }}
-                disabled={attendance !== 'yes'}
-                title={
-                  attendance === 'yes'
-                    ? 'Ajustar a interface'
-                    : 'Só libera ajustar quando confirmar presença (Sim)'
-                }
+                title="Ajustar a interface"
                 style={{
-                  ...(attendance === 'yes'
-                    ? {
-                        ...xpBtn,
-                        flex: '1 1 180px',
-                        background: `linear-gradient(180deg, ${THEME.lilac} 0%, ${THEME.winFace2} 100%)`,
-                        fontWeight: 'bold',
-                      }
-                    : {
-                        ...xpBtnDisabled,
-                        flex: '1 1 180px',
-                        fontWeight: 'bold',
-                      }),
+                  ...xpBtn,
+                  flex: '1 1 180px',
+                  background: `linear-gradient(180deg, ${THEME.lilac} 0%, ${THEME.winFace2} 100%)`,
+                  fontWeight: 'bold',
                 }}
               >
                 Ajustar interface

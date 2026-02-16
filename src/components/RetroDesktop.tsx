@@ -47,7 +47,6 @@ export default function RetroDesktop({
   learnMoreHref = '/convite',
 }: Props) {
   const [name, setName] = useState('');
-  const [attendance, setAttendance] = useState('');
   const [hasGuest, setHasGuest] = useState(false);
   const [guestName, setGuestName] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -68,7 +67,6 @@ export default function RetroDesktop({
       setAlreadyConfirmed(true);
       setIsConfirmed(true);
       if (stored.name) setName(stored.name);
-      if (stored.attendance) setAttendance(stored.attendance);
       if (stored.hasGuest != null) setHasGuest(stored.hasGuest);
       if (stored.guestName != null) setGuestName(stored.guestName);
     }
@@ -89,7 +87,7 @@ export default function RetroDesktop({
   }, []);
 
   const handleConfirm = () => {
-    if (name && attendance) setShowModal(true);
+    if (name) setShowModal(true);
   };
 
   function handleStartClick() {
@@ -106,13 +104,12 @@ export default function RetroDesktop({
     saveRsvp({
       confirmed: true,
       name,
-      attendance,
       hasGuest,
       guestName,
     });
     setIsConfirmed(true);
     setShowModal(false);
-  }, [name, attendance, hasGuest, guestName]);
+  }, [name, hasGuest, guestName]);
 
   function handleLearnMoreClick(e: React.MouseEvent) {
     if (!onLearnMore) return;
@@ -341,8 +338,6 @@ export default function RetroDesktop({
             <RSVPForm
               name={name}
               setName={setName}
-              attendance={attendance}
-              setAttendance={setAttendance}
               hasGuest={hasGuest}
               setHasGuest={setHasGuest}
               guestName={guestName}
@@ -392,7 +387,6 @@ export default function RetroDesktop({
         show={showModal}
         onClose={() => setShowModal(false)}
         name={name}
-        attendance={attendance}
         hasGuest={hasGuest}
         guestName={guestName}
         onConfirm={handleConfirmFromModal}

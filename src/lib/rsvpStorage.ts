@@ -1,4 +1,5 @@
 import { RSVP_STORAGE_KEY, type RsvpStorage } from '@/components/shared/constants';
+import { saveRsvpToFirestore } from './rsvpFirestore';
 
 export function getStoredRsvp(): RsvpStorage | null {
   try {
@@ -17,4 +18,8 @@ export function saveRsvp(data: Omit<RsvpStorage, 'confirmed'> & { confirmed: tru
   } catch {
     // ignore
   }
+
+  saveRsvpToFirestore(data).catch(() => {
+    // fire-and-forget: Firestore failure doesn't affect local UX
+  });
 }
