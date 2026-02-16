@@ -6,6 +6,7 @@ import { DesktopIcons } from './retro/DesktopIcons';
 import { RSVPForm } from './retro/RSVPForm';
 import { ConfirmModal } from './retro/ConfirmModal';
 import { RetroGalleryModal, type GalleryPhoto } from './retro/RetroGalleryModal';
+import { RetroMessagesModal } from './retro/RetroMessagesModal';
 import { Taskbar } from './retro/Taskbar';
 import { THEME } from './shared/constants';
 import { getStoredRsvp, saveRsvp } from '@/lib/rsvpStorage';
@@ -56,6 +57,7 @@ export default function RetroDesktop({
   const [clickCount, setClickCount] = useState(0);
   const [inviteVisible, setInviteVisible] = useState(true);
   const [easterEggGallery, setEasterEggGallery] = useState<'banguela' | 'amigos' | null>(null);
+  const [showMessages, setShowMessages] = useState(false);
 
   const windowWidth = useMemo(() => 'min(520px, 100%)', []);
   const bodyPad = useMemo(() => 'clamp(12px, 3.8vw, 18px)', []);
@@ -204,6 +206,7 @@ export default function RetroDesktop({
       <DesktopIcons
         onFilesClick={() => setEasterEggGallery('banguela')}
         onTrashClick={() => setEasterEggGallery('amigos')}
+        onMessagesClick={() => setShowMessages(true)}
       />
 
       <div className="flex items-center justify-center min-h-screen px-3 py-10">
@@ -407,6 +410,11 @@ export default function RetroDesktop({
         onClose={() => setEasterEggGallery(null)}
         title="Amigos – Andre, Sofia, Geraldo, Leo"
         photos={AMIGOS_PHOTOS}
+      />
+
+      <RetroMessagesModal
+        show={showMessages}
+        onClose={() => setShowMessages(false)}
       />
 
       <Taskbar

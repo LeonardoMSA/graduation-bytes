@@ -9,6 +9,7 @@ import { SecretConsole } from "./modern/SecretConsole";
 import { PixelArt } from "./modern/PixelArt";
 import { Hero } from "./modern/Hero";
 import { Footer } from "./modern/Footer";
+import { MessagesSection } from "./modern/MessagesSection";
 import { PhotoCarousel } from "./modern/PhotoCarousel";
 import { TOTAL_EGGS } from "./shared/constants";
 
@@ -43,15 +44,17 @@ export default function ModernSection({ onBackToRetro }: ModernSectionProps) {
 
       <RsvpSection onConfirm={launchConfetti} />
 
+      <MapSection />
+
       <MarqueeStrip />
 
       <Timeline />
 
       <SecretConsole onBackToRetro={onBackToRetro} />
 
-      <PixelArt />
+      <MessagesSection />
 
-      <MapSection />
+      <PixelArt />
 
       <PhotoCarousel />
 

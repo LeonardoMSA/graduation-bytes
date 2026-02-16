@@ -3,20 +3,23 @@ import React from 'react';
 export interface DesktopIconsProps {
   onFilesClick?: () => void;
   onTrashClick?: () => void;
+  onMessagesClick?: () => void;
 }
 
 const ICONS = [
   { icon: '💻', label: 'Meu Computador', onClick: undefined as (() => void) | undefined },
   { icon: '📁', label: 'Meus Docs', onClick: undefined as (() => void) | undefined },
   { icon: '🗑️', label: 'Lixeira', onClick: undefined as (() => void) | undefined },
+  { icon: '💬', label: 'Mensagens', onClick: undefined as (() => void) | undefined },
 ];
 
 export function DesktopIcons(props: DesktopIconsProps): React.ReactElement {
-  const { onFilesClick, onTrashClick } = props;
+  const { onFilesClick, onTrashClick, onMessagesClick } = props;
   const items = [
     { ...ICONS[0] },
     { ...ICONS[1], onClick: onFilesClick },
     { ...ICONS[2], onClick: onTrashClick },
+    { ...ICONS[3], onClick: onMessagesClick },
   ];
 
   return (
