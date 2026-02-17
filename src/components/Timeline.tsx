@@ -5,7 +5,7 @@ const milestones = [
   {
     year: '2004',
     title: 'O começo de tudo',
-    description: 'Chegou ao mundo pronta para conquistar tudo (ou pelo menos tentar)',
+    description: 'Chegou ao mundo pronta pra conquistar tudo (ou pelo menos tentar)',
     image: '/timeline/nasceu.png',
   },
   {
@@ -35,7 +35,7 @@ const milestones = [
   {
     year: '',
     title: 'Aproveitou e amou muito a vida até agora',
-    description: 'Junto com pessoas incríveis que trouxeram muito amor em todos os momentos',
+    description: 'Com pessoas incríveis, que trouxeram muito amor em cada momento.',
     image: '/timeline/pessoas.png',
   },
   {
