@@ -67,7 +67,6 @@ export default function MapSection() {
                 "invert(0.9) hue-rotate(180deg) saturate(0.5) brightness(0.8)",
             }}
             allowFullScreen
-            loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             title="Localização do evento"
           />

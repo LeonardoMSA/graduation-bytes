@@ -1,24 +1,50 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { preloadAll } from "@/lib/preloadAssets";
 
 interface Props {
   onComplete: () => void;
 }
 
+const MIN_TRANSITION_MS = 7000;
+/** Tempos fixos originais de cada fase (ms) – nos primeiros 7s todas as mensagens aparecem nessa ordem */
+const PHASE_BOUNDS = [0, 1200, 2400, 4300, 6000, 7000] as const;
+/** Quando demora mais que 7s, ciclamos as fases 2, 3, 4 a cada CYCLE_PHASE_MS para não ficar parado numa só */
+const CYCLE_PHASE_MS = 2200;
+const TICK_MS = 200;
+
+function getPhase(elapsed: number): number {
+  if (elapsed < MIN_TRANSITION_MS) {
+    for (let i = PHASE_BOUNDS.length - 2; i >= 0; i--) {
+      if (elapsed >= PHASE_BOUNDS[i]) return i;
+    }
+    return 0;
+  }
+  const extra = elapsed - MIN_TRANSITION_MS;
+  return [2, 3, 4][Math.floor(extra / CYCLE_PHASE_MS) % 3];
+}
+
 export default function GlitchTransition({ onComplete }: Props) {
-  const [phase, setPhase] = useState(0);
+  const [elapsed, setElapsed] = useState(0);
+  const [preloadDone, setPreloadDone] = useState(false);
 
   useEffect(() => {
-    const timers = [
-      setTimeout(() => setPhase(1), 1200),
-      setTimeout(() => setPhase(2), 2400),
-      setTimeout(() => setPhase(3), 4300),
-      setTimeout(() => setPhase(4), 6000),
-      setTimeout(onComplete, 7000),
-    ];
+    const id = setInterval(() => setElapsed((e) => e + TICK_MS), TICK_MS);
+    return () => clearInterval(id);
+  }, []);
 
-    return () => timers.forEach(clearTimeout);
-  }, [onComplete]);
+  const phase = getPhase(elapsed);
+  const minTimeReached = elapsed >= MIN_TRANSITION_MS;
+
+  // Preload de imagens e mapa durante a transição
+  useEffect(() => {
+    preloadAll().then(() => setPreloadDone(true));
+  }, []);
+
+  // Só chama onComplete quando o tempo mínimo passou E o preload terminou
+  useEffect(() => {
+    if (preloadDone && minTimeReached) onComplete();
+  }, [preloadDone, minTimeReached, onComplete]);
 
   return (
     <motion.div

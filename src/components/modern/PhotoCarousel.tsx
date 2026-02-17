@@ -76,7 +76,6 @@ export function PhotoCarousel() {
                     src={src}
                     alt=""
                     className="w-full h-full object-cover"
-                    loading="lazy"
                   />
                 </div>
               </div>
