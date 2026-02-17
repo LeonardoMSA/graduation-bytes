@@ -1,11 +1,5 @@
 import { motion } from "framer-motion";
 
-const mapRuleStyle = {
-  height: "1px",
-  background:
-    "linear-gradient(90deg, transparent 0%, rgba(123,177,217,0.18) 18%, rgba(203,140,194,0.35) 50%, rgba(123,177,217,0.18) 82%, transparent 100%)",
-};
-
 export default function MapSection() {
   return (
     <section className="py-20 px-4 sm:px-8 max-w-4xl mx-auto">
@@ -16,7 +10,7 @@ export default function MapSection() {
         transition={{ duration: 0.55 }}
         className="max-w-xl mx-auto"
       >
-        <div style={mapRuleStyle} className="mb-10" aria-hidden />
+        <div className="mb-8" aria-hidden />
 
         {/* Title */}
         <div className="mb-8 text-center">

@@ -38,7 +38,7 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
 
   if (alreadyConfirmed) {
     return (
-      <section className="py-24 px-6 relative">
+      <section id="confirmar-presenca" className="py-24 px-6 relative">
         <div className="max-w-lg mx-auto text-center">
           <p className="font-mono text-xs tracking-[4px] uppercase text-[#7BB1D9] mb-4">
             Confirme presença
@@ -72,7 +72,7 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
   }
 
   return (
-    <section className="py-24 px-6 relative">
+    <section id="confirmar-presenca" className="py-24 px-6 relative">
       <div className="max-w-lg mx-auto text-center">
         <p className="font-mono text-xs tracking-[4px] uppercase text-[#7BB1D9] mb-4">
           Confirme presença
@@ -142,9 +142,13 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
           </div>
 
           <motion.button
+            type="button"
             whileHover={canSubmit ? { scale: 1.05 } : undefined}
             whileTap={canSubmit ? { scale: 0.95 } : undefined}
-            onClick={handleConfirm}
+            onClick={(e) => {
+              e.preventDefault();
+              handleConfirm();
+            }}
             disabled={!canSubmit}
             className={`px-10 py-4 rounded-full font-modern font-bold text-base tracking-wider transition-all duration-300 ${
               confirmed

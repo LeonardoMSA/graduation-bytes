@@ -1,6 +1,13 @@
-import { useState, useEffect, useRef } from 'react';
-import { getStoredRsvp } from '@/lib/rsvpStorage';
-import { sendMessage, subscribeToMessages, type Message } from '@/lib/messagesFirestore';
+import { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { getStoredRsvp, ensureSenderId } from '@/lib/rsvpStorage';
+import {
+  sendMessage,
+  deleteMessage,
+  subscribeToMessages,
+  type Message,
+} from '@/lib/messagesFirestore';
+import { PALETTE } from '@/components/shared/constants';
 
 function formatRelativeTime(timestamp: { toDate: () => Date } | null): string {
   if (!timestamp) return '';
@@ -14,11 +21,134 @@ function formatRelativeTime(timestamp: { toDate: () => Date } | null): string {
   return `${Math.floor(diffSec / 86400)}d`;
 }
 
-export function MessagesSection() {
+/** Post-its nas cores do site: azuis e lilases */
+const POST_IT_STYLES = [
+  {
+    bg: `linear-gradient(135deg, ${PALETTE.bluePastel}40 0%, ${PALETTE.blueMedium}30 100%)`,
+    border: `${PALETTE.blueMedium}50`,
+  },
+  {
+    bg: `linear-gradient(135deg, ${PALETTE.blueVivid}25 0%, ${PALETTE.blueIntense}20 100%)`,
+    border: `${PALETTE.blueVivid}40`,
+  },
+  {
+    bg: `linear-gradient(135deg, ${PALETTE.lilacLight}50 0%, ${PALETTE.lilacMedium}40 100%)`,
+    border: `${PALETTE.lilacMedium}50`,
+  },
+  {
+    bg: `linear-gradient(135deg, ${PALETTE.bluePastel}35 0%, ${PALETTE.lilacLight}30 100%)`,
+    border: `${PALETTE.blueMedium}40`,
+  },
+  {
+    bg: `linear-gradient(135deg, ${PALETTE.blueIntense}20 0%, ${PALETTE.blueDeep}15 100%)`,
+    border: `${PALETTE.blueIntense}35`,
+  },
+  {
+    bg: `linear-gradient(135deg, ${PALETTE.lilacMedium}35 0%, ${PALETTE.bluePastel}25 100%)`,
+    border: `${PALETTE.lilacMedium}40`,
+  },
+] as const;
+
+function getPostItStyle(index: number) {
+  return POST_IT_STYLES[index % POST_IT_STYLES.length];
+}
+
+function getPostItRotation(index: number): number {
+  const rotations = [-2, 1.5, -1, 2, -1.5, 0.5, -0.5, 1];
+  return rotations[index % rotations.length];
+}
+
+interface PostItNoteProps {
+  msg: Message;
+  index: number;
+  canDelete: boolean;
+  onDelete: (id: string) => void;
+}
+
+function PostItNote({ msg, index, canDelete, onDelete }: PostItNoteProps) {
+  const style = getPostItStyle(index);
+  const rotation = getPostItRotation(index);
+  const author = msg.guestName?.trim() || 'Anônimo';
+  const [deleting, setDeleting] = useState(false);
+
+  const handleDelete = () => {
+    if (!canDelete || deleting) return;
+    setDeleting(true);
+    onDelete(msg.id);
+  };
+
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, scale: 0.8, rotate: rotation - 5 }}
+      animate={{ opacity: 1, scale: 1, rotate: rotation }}
+      exit={{ opacity: 0, scale: 0.8 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 24 }}
+      className="relative min-h-[100px] flex flex-col rounded-lg border overflow-hidden group"
+      style={{
+        background: style.bg,
+        borderColor: style.border,
+        boxShadow:
+          '0 2px 8px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.1)',
+      }}
+    >
+      <div className="p-4 flex-1">
+        <p className="text-white/95 text-sm leading-relaxed break-words font-timeline">
+          {msg.text}
+        </p>
+      </div>
+      <div className="px-4 pb-3 pt-2 flex justify-between items-center gap-2">
+        <span className="text-xs font-medium text-white/70 truncate flex-1">
+          — {author}
+        </span>
+        <div className="flex items-center gap-1 shrink-0">
+          <span className="text-[10px] text-white/50">
+            {formatRelativeTime(msg.createdAt)}
+          </span>
+          {canDelete && (
+            <button
+              type="button"
+              onClick={handleDelete}
+              disabled={deleting}
+              className="opacity-60 hover:opacity-100 p-1 rounded transition-opacity text-white/80 hover:text-white"
+              aria-label="Apagar meu recado"
+              title="Apagar meu recado"
+            >
+              <svg
+                className="w-3.5 h-3.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                />
+              </svg>
+            </button>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+interface MessagesSectionProps {
+  /** Incrementa quando o RSVP é confirmado, forçando re-leitura do localStorage */
+  rsvpVersion?: number;
+}
+
+export function MessagesSection({ rsvpVersion = 0 }: MessagesSectionProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [text, setText] = useState('');
   const [sending, setSending] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
+  const rsvp = getStoredRsvp();
+  const rsvpWithSender = rsvp ? ensureSenderId(rsvp) : null;
+  const currentSenderId = rsvpWithSender?.senderId ?? null;
+  const hasConfirmed = !!rsvp;
 
   useEffect(() => {
     return subscribeToMessages(setMessages);
@@ -32,83 +162,143 @@ export function MessagesSection() {
 
   const handleSend = async () => {
     const trimmed = text.trim();
-    if (!trimmed || sending) return;
+    if (!trimmed || sending || !hasConfirmed) return;
     setSending(true);
-    const guestName = getStoredRsvp()?.name;
-    await sendMessage(trimmed, guestName).catch(() => {});
+    await sendMessage(
+      trimmed,
+      rsvpWithSender?.name,
+      rsvpWithSender?.senderId,
+    ).catch(() => { });
     setText('');
     setSending(false);
   };
 
+  const handleDelete = async (id: string) => {
+    await deleteMessage(id).catch(() => { });
+  };
+
   return (
     <section className="py-24 px-6 relative">
-      <div className="max-w-lg mx-auto text-center">
-        <p className="font-mono text-xs tracking-[4px] uppercase text-[#7BB1D9] mb-4">
-          Mural de recados
+      <div className="max-w-3xl mx-auto">
+        <p className="font-mono text-xs tracking-[4px] uppercase text-[#7BB1D9] mb-4 text-center">
+          Quadro de recados
         </p>
-        <h2 className="font-modern text-3xl sm:text-4xl font-bold mb-8 leading-tight">
-          Deixe uma{' '}
+        <h2 className="font-modern text-3xl sm:text-4xl font-bold mb-3 leading-tight text-center">
+          Deixe seu recado{' '}
           <span
             className="text-[#3794CF]"
             style={{ textShadow: '0 0 24px rgba(55,148,207,0.4)' }}
           >
-            mensagem
+            pra Lu
           </span>
         </h2>
 
-        <div className="glass rounded-3xl p-8 sm:p-12">
+        <p className="text-center text-white/50 text-sm mb-10 font-timeline max-w-md mx-auto">
+          Veja as mensagens que os convidados deixaram no mural e deixe a sua também.
+        </p>
+
+        {/* Mural com estética do site (glass, azuis, lilases) */}
+        <div className="glass rounded-2xl overflow-hidden border border-white/10">
+          {/* Área do mural */}
           <div
-            ref={listRef}
-            className="mb-6 text-left overflow-y-auto"
-            style={{ maxHeight: 280 }}
+            className="relative min-h-[320px] overflow-hidden"
+            style={{
+              background:
+                'linear-gradient(180deg, rgba(6,18,42,0.6) 0%, rgba(10,39,68,0.5) 50%, rgba(6,18,42,0.7) 100%)',
+            }}
           >
-            {messages.length === 0 && (
-              <p className="text-center opacity-40 text-sm py-6">
-                Nenhuma mensagem ainda. Seja o primeiro!
-              </p>
-            )}
-            {messages.map((msg) => (
-              <div key={msg.id} className="mb-3">
-                <div
-                  className="inline-block rounded-2xl px-4 py-2 text-sm"
-                  style={{
-                    background: 'rgba(55,148,207,0.15)',
-                    maxWidth: '85%',
-                    wordBreak: 'break-word',
-                  }}
-                >
-                  {msg.text}
+            <div
+              ref={listRef}
+              className="p-6 overflow-y-auto h-full"
+              style={{ maxHeight: 360 }}
+            >
+              {messages.length === 0 ? (
+                <div className="flex flex-col items-center justify-center min-h-[240px] text-white/40">
+                  <svg
+                    className="w-16 h-16 mb-4 opacity-50"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                    />
+                  </svg>
+                  <p className="text-sm font-timeline">Nenhum recado ainda.</p>
+                  <p className="text-xs mt-1">Seja o primeiro a deixar uma mensagem!</p>
                 </div>
-                <div className="text-[10px] opacity-40 mt-0.5 ml-2">
-                  {formatRelativeTime(msg.createdAt)}
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <AnimatePresence mode="popLayout">
+                    {messages.map((msg, i) => (
+                      <PostItNote
+                        key={msg.id}
+                        msg={msg}
+                        index={i}
+                        canDelete={
+                          !!currentSenderId &&
+                          !!msg.senderId &&
+                          msg.senderId === currentSenderId
+                        }
+                        onDelete={handleDelete}
+                      />
+                    ))}
+                  </AnimatePresence>
                 </div>
-              </div>
-            ))}
+              )}
+            </div>
           </div>
 
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') handleSend();
-              }}
-              placeholder="Escreva uma mensagem..."
-              className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm font-mono placeholder:opacity-30 focus:outline-none focus:border-[#3794CF]/60 transition-colors"
-            />
-            <button
-              type="button"
-              onClick={handleSend}
-              disabled={!text.trim() || sending}
-              className={`px-5 py-3 rounded-xl font-modern font-bold text-sm transition-all ${
-                text.trim() && !sending
-                  ? 'bg-[#3794CF] text-white cursor-pointer hover:shadow-[0_0_20px_rgba(55,148,207,0.4)]'
-                  : 'bg-white/10 text-white/30 cursor-not-allowed'
-              }`}
-            >
-              Enviar
-            </button>
+          {/* Área de input */}
+          <div className="p-4 sm:p-6 border-t border-white/10 bg-white/[0.02]">
+            {hasConfirmed ? (
+              <>
+                <p className="text-white/60 text-xs font-mono mb-3">
+                  Deixe seu recado no mural:
+                </p>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') handleSend();
+                    }}
+                    placeholder="Escreva sua mensagem..."
+                    className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm font-timeline text-white placeholder:text-white/30 focus:outline-none focus:border-[#3794CF]/60 transition-colors"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleSend}
+                    disabled={!text.trim() || sending}
+                    className={`px-5 py-3 rounded-xl font-modern font-bold text-sm transition-all shrink-0 ${text.trim() && !sending
+                        ? 'bg-[#3794CF] text-white cursor-pointer hover:shadow-[0_0_20px_rgba(55,148,207,0.4)] hover:brightness-110'
+                        : 'bg-white/10 text-white/50 cursor-not-allowed'
+                      }`}
+                  >
+                    {sending ? '...' : 'Fixar'}
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className="flex flex-col items-center justify-center py-6 px-4 text-center">
+                <p className="text-white/60 text-sm font-timeline mb-2">
+                  <a
+                    href="#confirmar-presenca"
+                    className="text-[#7BB1D9] hover:text-[#3794CF] underline underline-offset-2 transition-colors"
+                  >
+                    Confirme sua presença
+                  </a>{' '}
+                  acima para deixar um recado no mural.
+                </p>
+                <p className="text-white/40 text-xs font-mono">
+                  Você pode ver os recados de outras pessoas enquanto isso.
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>

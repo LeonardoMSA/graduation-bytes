@@ -20,11 +20,17 @@ interface ModernSectionProps {
 
 export default function ModernSection({ onBackToRetro }: ModernSectionProps) {
   const [showConfetti, setShowConfetti] = useState(false);
+  const [rsvpVersion, setRsvpVersion] = useState(0);
 
   const launchConfetti = useCallback(() => {
     setShowConfetti(true);
     setTimeout(() => setShowConfetti(false), 4500);
   }, []);
+
+  const handleRsvpConfirm = useCallback(() => {
+    launchConfetti();
+    setRsvpVersion((v) => v + 1);
+  }, [launchConfetti]);
 
   return (
     <motion.div
@@ -42,17 +48,17 @@ export default function ModernSection({ onBackToRetro }: ModernSectionProps) {
 
       <Hero />
 
-      <RsvpSection onConfirm={launchConfetti} />
+      <RsvpSection onConfirm={handleRsvpConfirm} />
 
       <MapSection />
+
+      <MessagesSection rsvpVersion={rsvpVersion} />
 
       <MarqueeStrip />
 
       <Timeline />
 
       <SecretConsole onBackToRetro={onBackToRetro} />
-
-      <MessagesSection />
 
       <PixelArt />
 

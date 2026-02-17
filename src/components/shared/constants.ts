@@ -108,4 +108,6 @@ export interface RsvpStorage {
   name?: string;
   hasGuest?: boolean;
   guestName?: string;
+  /** Identificador único do convidado, usado para permitir apagar próprias mensagens */
+  senderId?: string;
 }

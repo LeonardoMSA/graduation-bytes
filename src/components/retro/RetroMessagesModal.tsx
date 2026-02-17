@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { THEME } from '@/components/shared/constants';
-import { getStoredRsvp } from '@/lib/rsvpStorage';
+import { getStoredRsvp, ensureSenderId } from '@/lib/rsvpStorage';
 import { sendMessage, subscribeToMessages, type Message } from '@/lib/messagesFirestore';
 
 interface RetroMessagesModalProps {
@@ -42,8 +42,9 @@ export function RetroMessagesModal({ show, onClose }: RetroMessagesModalProps) {
     const trimmed = text.trim();
     if (!trimmed || sending) return;
     setSending(true);
-    const guestName = getStoredRsvp()?.name;
-    await sendMessage(trimmed, guestName).catch(() => {});
+    const stored = getStoredRsvp();
+    const rsvp = stored ? ensureSenderId(stored) : null;
+    await sendMessage(trimmed, rsvp?.name, rsvp?.senderId).catch(() => {});
     setText('');
     setSending(false);
   };
