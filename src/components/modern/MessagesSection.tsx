@@ -68,7 +68,8 @@ interface PostItNoteProps {
 function PostItNote({ msg, index, canDelete, onDelete }: PostItNoteProps) {
   const style = getPostItStyle(index);
   const rotation = getPostItRotation(index);
-  const author = msg.guestName?.trim() || 'Anônimo';
+  const showAuthor =
+    msg.showNameOnWall !== false && !!msg.guestName?.trim();
   const [deleting, setDeleting] = useState(false);
 
   const handleDelete = () => {
@@ -98,9 +99,13 @@ function PostItNote({ msg, index, canDelete, onDelete }: PostItNoteProps) {
         </p>
       </div>
       <div className="px-4 pb-3 pt-2 flex justify-between items-center gap-2">
-        <span className="text-xs font-medium text-white/70 truncate flex-1">
-          — {author}
-        </span>
+        {showAuthor ? (
+          <span className="text-xs font-medium text-white/70 truncate flex-1">
+            — {msg.guestName!.trim()}
+          </span>
+        ) : (
+          <span className="flex-1" />
+        )}
         <div className="flex items-center gap-1 shrink-0">
           <span className="text-[10px] text-white/50">
             {formatRelativeTime(msg.createdAt)}
@@ -143,6 +148,7 @@ interface MessagesSectionProps {
 export function MessagesSection({ rsvpVersion = 0 }: MessagesSectionProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [text, setText] = useState('');
+  const [showNameOnWall, setShowNameOnWall] = useState(true);
   const [sending, setSending] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
   const rsvp = getStoredRsvp();
@@ -168,7 +174,8 @@ export function MessagesSection({ rsvpVersion = 0 }: MessagesSectionProps) {
       trimmed,
       rsvpWithSender?.name,
       rsvpWithSender?.senderId,
-    ).catch(() => { });
+      showNameOnWall,
+    ).catch(() => {});
     setText('');
     setSending(false);
   };
@@ -259,16 +266,19 @@ export function MessagesSection({ rsvpVersion = 0 }: MessagesSectionProps) {
                 <p className="text-white/60 text-xs font-mono mb-3">
                   Deixe seu recado no mural:
                 </p>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
+                <div className="flex gap-2 items-end">
+                  <textarea
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                     onKeyDown={(e) => {
-                      if (e.key === 'Enter') handleSend();
+                      if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        handleSend();
+                      }
                     }}
                     placeholder="Escreva sua mensagem..."
-                    className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm font-timeline text-white placeholder:text-white/30 focus:outline-none focus:border-[#3794CF]/60 transition-colors"
+                    rows={2}
+                    className="flex-1 min-h-[44px] max-h-[160px] resize-y bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm font-timeline text-white placeholder:text-white/30 focus:outline-none focus:border-[#3794CF]/60 transition-colors"
                   />
                   <button
                     type="button"
@@ -279,9 +289,32 @@ export function MessagesSection({ rsvpVersion = 0 }: MessagesSectionProps) {
                         : 'bg-white/10 text-white/50 cursor-not-allowed'
                       }`}
                   >
-                    {sending ? '...' : 'Fixar'}
+                    {sending ? '...' : 'Enviar'}
                   </button>
                 </div>
+                <label className="mt-3 flex items-center gap-2 cursor-pointer group">
+                  <span className="relative flex h-4 w-4 shrink-0 items-center justify-center">
+                    <input
+                      type="checkbox"
+                      checked={showNameOnWall}
+                      onChange={(e) => setShowNameOnWall(e.target.checked)}
+                      className="peer sr-only"
+                    />
+                    <span className="flex h-4 w-4 items-center justify-center rounded border border-white/20 bg-white/5 transition-colors group-hover:border-white/40 peer-checked:border-[#3794CF]/60 peer-checked:bg-[#3794CF]/25 peer-checked:[&>svg]:opacity-100">
+                      <svg
+                        className="h-2.5 w-2.5 text-[#7BB1D9] opacity-0 transition-opacity"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </span>
+                  </span>
+                  <span className="text-xs font-mono tracking-wide text-white/50 group-hover:text-white/70 transition-colors">
+                    Exibir meu nome junto da mensagem no mural
+                  </span>
+                </label>
               </>
             ) : (
               <div className="flex flex-col items-center justify-center py-6 px-4 text-center">
