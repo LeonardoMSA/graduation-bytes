@@ -4,7 +4,7 @@ export function MarqueeStrip() {
   const items = [...MARQUEE_ITEMS, ...MARQUEE_ITEMS];
 
   return (
-    <div className="overflow-hidden py-20 border-y border-white/[0.08]">
+    <div className="overflow-hidden py-6 border-y border-white/[0.08]">
       <div className="flex gap-12 animate-marquee hover:[animation-play-state:paused] w-max">
         {items.map((item, i) => (
           <span key={i} className="flex items-center gap-12">

@@ -14,7 +14,7 @@ export function Footer() {
         14.03.26
       </div>
       <p className="font-mono text-[11px] tracking-[3px] uppercase opacity-30">
-        Feito com 💜 e muito código · © 2026 Luiza Omena
+        Feito com amor e carinho · © 2026 Luiza Omena
       </p>
     </footer>
   );
