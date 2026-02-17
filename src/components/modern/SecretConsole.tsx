@@ -315,40 +315,36 @@ export function SecretConsole({ onBackToRetro }: SecretConsoleProps) {
   }, [lines]);
 
   return (
-    <section className="py-20 px-6">
-      <div className="max-w-3xl mx-auto text-center">
-        <h2 className="font-modern text-3xl sm:text-4xl font-bold mb-2">
-          Terminal integrado
-        </h2>
+    <section className="py-20 px-6"> <div className="max-w-3xl mx-auto text-center"> <p className="font-mono text-xs tracking-[4px] uppercase text-[#7BB1D9] mb-4"> Para os devs </p> <h2 className="font-modern text-3xl sm:text-4xl font-bold mb-2 leading-tight"> Terminal <span className="text-[#3794CF]">integrado</span> </h2> <p className="opacity-50 text-sm mb-8"> Tente: <code className="text-[#3794CF]">help</code> </p>
 
-        <div className="max-w-[700px] mx-auto rounded-2xl overflow-hidden border bg-black/60 text-left">
-          <div
-            ref={bodyRef}
-            className="p-5 font-mono text-[13px] min-h-[200px] max-h-[300px] overflow-y-auto"
-          >
-            {lines.map((line, i) => (
-              <div key={i} dangerouslySetInnerHTML={{ __html: line }} />
-            ))}
-          </div>
+      <div className="max-w-[700px] mx-auto rounded-2xl overflow-hidden border bg-black/60 text-left">
+        <div
+          ref={bodyRef}
+          className="p-5 font-mono text-[13px] min-h-[200px] max-h-[300px] overflow-y-auto"
+        >
+          {lines.map((line, i) => (
+            <div key={i} dangerouslySetInnerHTML={{ __html: line }} />
+          ))}
+        </div>
 
-          <div className="px-5 py-3 border-t">
-            <div className="flex items-center gap-2">
-              <span className="text-[#CB8CC2] font-bold font-mono">$</span>
-              <input
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && input.trim()) {
-                    handleCommand(input.trim().toLowerCase());
-                    setInput("");
-                  }
-                }}
-                className="flex-1 bg-transparent outline-none font-mono text-[#7BB1D9]"
-              />
-            </div>
+        <div className="px-5 py-3 border-t">
+          <div className="flex items-center gap-2">
+            <span className="text-[#CB8CC2] font-bold font-mono">$</span>
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && input.trim()) {
+                  handleCommand(input.trim().toLowerCase());
+                  setInput("");
+                }
+              }}
+              className="flex-1 bg-transparent outline-none font-mono text-[#7BB1D9]"
+            />
           </div>
         </div>
       </div>
+    </div>
     </section>
   );
 }

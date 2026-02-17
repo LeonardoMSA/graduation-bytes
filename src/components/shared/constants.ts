@@ -55,8 +55,6 @@ export const CAROUSEL_PHOTOS = [
   '/photos/luiza/12.jpeg',
   '/photos/luiza/13.jpeg',
   '/photos/luiza/14.jpeg',
-  '/photos/me_01.PNG',
-  '/photos/me_02.jpeg',
   '/photos/meninas/01.jpeg',
   '/photos/meninas/02.jpeg',
   '/photos/meninas/03.jpeg',

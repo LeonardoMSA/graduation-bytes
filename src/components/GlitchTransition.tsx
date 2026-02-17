@@ -6,11 +6,9 @@ interface Props {
   onComplete: () => void;
 }
 
-const MIN_TRANSITION_MS = 7000;
-/** Tempos fixos originais de cada fase (ms) – nos primeiros 7s todas as mensagens aparecem nessa ordem */
-const PHASE_BOUNDS = [0, 1200, 2400, 4300, 6000, 7000] as const;
-/** Quando demora mais que 7s, ciclamos as fases 2, 3, 4 a cada CYCLE_PHASE_MS para não ficar parado numa só */
-const CYCLE_PHASE_MS = 2200;
+const MIN_TRANSITION_MS = 8000;
+/** Tempos fixos originais de cada fase (ms) – agora com "Preparados?" indo de 6s até 8s */
+const PHASE_BOUNDS = [0, 1200, 2400, 4300, 6000, 8000] as const;
 const TICK_MS = 200;
 
 function getPhase(elapsed: number): number {
@@ -20,8 +18,8 @@ function getPhase(elapsed: number): number {
     }
     return 0;
   }
-  const extra = elapsed - MIN_TRANSITION_MS;
-  return [2, 3, 4][Math.floor(extra / CYCLE_PHASE_MS) % 3];
+  // Depois dos 8s, mantemos em "Preparados?" e deixamos a animação visual fazer o trabalho
+  return 4;
 }
 
 export default function GlitchTransition({ onComplete }: Props) {
@@ -183,6 +181,63 @@ export default function GlitchTransition({ onComplete }: Props) {
               }}
             />
           ))}
+        </div>
+      )}
+
+      {/* Animação de luzes/ondas enquanto o convite \"abre\" (após 8s, se ainda estiver carregando) */}
+      {elapsed >= MIN_TRANSITION_MS && !preloadDone && (
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {/* Halo central pulsando (luz abrindo) */}
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(circle at center, rgba(203,140,194,0.35), transparent 55%)",
+              mixBlendMode: "screen",
+            }}
+            animate={{ opacity: [0.2, 0.7, 0.4] }}
+            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+          />
+
+          {/* Faixas diagonais se movendo (ondas) */}
+          {Array.from({ length: 4 }).map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute -left-1/2 -right-1/2 h-24 sm:h-32"
+              style={{
+                top: `${20 + i * 18}%`,
+                background:
+                  i % 2 === 0
+                    ? "linear-gradient(90deg, rgba(7,123,198,0.0), rgba(7,123,198,0.7), rgba(203,140,194,0.0))"
+                    : "linear-gradient(90deg, rgba(55,148,207,0.0), rgba(55,148,207,0.6), rgba(203,186,206,0.0))",
+                transform: "skewY(-8deg)",
+                filter: "blur(2px)",
+                opacity: 0.65,
+              }}
+              initial={{ x: "-40%" }}
+              animate={{ x: ["-40%", "40%", "-40%"] }}
+              transition={{
+                duration: 6 + i,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+          ))}
+
+          {/* Borda brilhando como se o convite estivesse destravando */}
+          <motion.div
+            className="absolute inset-[12%] rounded-3xl border"
+            style={{
+              borderColor: "rgba(166,206,232,0.5)",
+              boxShadow:
+                "0 0 18px rgba(166,206,232,0.35), 0 0 40px rgba(7,123,198,0.35)",
+            }}
+            animate={{
+              opacity: [0.4, 0.9, 0.5],
+              scale: [0.98, 1.02, 0.99],
+            }}
+            transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+          />
         </div>
       )}
     </motion.div>

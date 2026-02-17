@@ -75,6 +75,8 @@
   }
   body {
     @apply bg-background text-foreground;
+    @apply cursor-default;
+     /* Evita que o texto seja selecionado */
   }
 }
 
