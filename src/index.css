@@ -144,6 +144,13 @@
   animation: marquee-scroll 20s linear infinite;
 }
 
+/* Modern section: evita sombra branca no topo no celular */
+@media (max-width: 640px) {
+  .hero-title-glow {
+    text-shadow: 0 0 4px rgba(255,255,255,0.12), 0 0 16px rgba(55,148,207,0.15) !important;
+  }
+}
+
 /* Slow spin (bubble borders) */
 .animate-spin-slow {
   animation: spin 8s linear infinite;

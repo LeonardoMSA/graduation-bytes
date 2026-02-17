@@ -94,7 +94,7 @@ export function PixelArt() {
   };
 
 return (
-  <section className="py-24 px-6">
+  <section className="py-20 px-6">
     <div className="max-w-3xl mx-auto text-center">
       <p className="font-mono text-xs tracking-[4px] uppercase text-[#7BB1D9] mb-4">
         Pinte!

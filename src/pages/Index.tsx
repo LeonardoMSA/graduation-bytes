@@ -12,6 +12,17 @@ type Phase = "loading" | "retro" | "learnMore" | "transition" | "modern";
 const Index = () => {
   const [phase, setPhase] = useState<Phase>("transition");
 
+  useEffect(() => {
+    if (phase === "modern") {
+      document.documentElement.classList.add("dark");
+      document.body.style.background = "#050d18";
+      return () => {
+        document.documentElement.classList.remove("dark");
+        document.body.style.background = "";
+      };
+    }
+  }, [phase]);
+
   return (
     <div className="min-h-screen overflow-x-hidden">
       <AnimatePresence mode="wait">

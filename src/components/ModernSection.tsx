@@ -37,11 +37,12 @@ export default function ModernSection({ onBackToRetro }: ModernSectionProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
-      className="min-h-screen relative dark"
+      className="min-h-screen relative dark modern-section-bg"
       style={{
         background:
-          "linear-gradient(180deg, #06122A 0%, #0a2744 50%, #06122A 100%)",
+          "linear-gradient(180deg, #050d18 0%, #06122A 20%, #071c35 50%, #06122A 80%, #050d18 100%)",
         color: "#f0f6fc",
+        paddingTop: "env(safe-area-inset-top, 0px)",
       }}
     >
       {showConfetti && <ConfettiOverlay />}

@@ -73,7 +73,7 @@ export function Hero() {
         </div>
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold font-modern mb-4 leading-tight">
           <span
-            className="bg-clip-text text-transparent"
+            className="bg-clip-text text-transparent hero-title-glow"
             style={{
               backgroundImage: 'linear-gradient(to right, #CB8CC2, #3794CF, #077BC6)',
               textShadow: `

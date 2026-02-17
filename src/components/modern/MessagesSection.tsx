@@ -178,7 +178,7 @@ export function MessagesSection({ rsvpVersion = 0 }: MessagesSectionProps) {
   };
 
   return (
-    <section className="py-24 px-6 relative">
+    <section className="py-20 px-6 relative">
       <div className="max-w-3xl mx-auto">
         <p className="font-mono text-xs tracking-[4px] uppercase text-[#7BB1D9] mb-4 text-center">
           Quadro de recados
