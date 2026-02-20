@@ -8,6 +8,7 @@ import { MarqueeStrip } from "./modern/MarqueeStrip";
 import { SecretConsole } from "./modern/SecretConsole";
 import { PixelArt } from "./modern/PixelArt";
 import { Hero } from "./modern/Hero";
+import { MobileDecorationsSection } from "./modern/MobileDecorationsSection";
 import { Footer } from "./modern/Footer";
 import { MessagesSection } from "./modern/MessagesSection";
 import { PhotoCarousel } from "./modern/PhotoCarousel";
@@ -50,6 +51,7 @@ export default function ModernSection({ onBackToRetro }: ModernSectionProps) {
       <Hero />
 
       <RsvpSection onConfirm={handleRsvpConfirm} />
+      <MobileDecorationsSection placement="top" />
 
       <MapSection />
 
@@ -59,7 +61,11 @@ export default function ModernSection({ onBackToRetro }: ModernSectionProps) {
 
       <Timeline />
 
+      <MobileDecorationsSection placement="bottom" />
+
       <SecretConsole onBackToRetro={onBackToRetro} />
+
+      <MobileDecorationsSection placement="middle" />
 
       <PixelArt />
 

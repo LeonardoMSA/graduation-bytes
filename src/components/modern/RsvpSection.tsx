@@ -56,7 +56,7 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
               Se precisar alterar algo (nome, acompanhante, etc.), entre em
               contato comigo pelo{" "}
               <a
-                href="https://wa.me/5581986889451"
+                href="https://wa.me/5581986889461"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#7BB1D9] hover:text-[#3794CF] underline underline-offset-2 transition-colors"
@@ -84,7 +84,7 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
         <div className="glass rounded-3xl p-8 sm:p-12">
           <p className="opacity-50 mb-8 leading-relaxed">
             Confirme sua presença e faça parte dessa celebração! Vou adorar ter
-            você lá. 💜
+            você lá.
           </p>
 
           <input
@@ -158,7 +158,7 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
                   : "bg-white/10 text-white/30 cursor-not-allowed"
             }`}
           >
-            {confirmed ? "✅ Presença Confirmada!" : "Confirmar Presença 🎉"}
+            {confirmed ? "Presença Confirmada!" : "Confirmar Presença"}
           </motion.button>
         </div>
       </div>
