@@ -209,7 +209,7 @@ export function Hero() {
           <motion.img
             src="/assets/info_festa.png"
             alt="14 de março de 2026, início às 16h. Rua Antônio Virtruvio, 49. Formatura + Aniversário."
-            className="max-w-[340px] sm:max-w-[420px] w-full h-auto object-contain drop-shadow-lg ml-2 sm:ml-4"
+            className="max-w-[340px] sm:max-w-[500px] w-full h-auto object-contain drop-shadow-lg ml-2 sm:ml-4"
           />
         </div>
 
