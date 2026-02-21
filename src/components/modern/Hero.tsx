@@ -83,42 +83,42 @@ export function Hero() {
         <img
           src={BALLOON_SRC}
           alt=""
-          className="hidden sm:block absolute w-16 md:w-24 lg:w-28 top-[6%] left-[7%] md:left-[8%] opacity-40"
+          className="hidden sm:block absolute w-16 md:w-24 lg:w-28 top-[6%] left-[7%] md:left-[8%] opacity-40 pointer-events-auto hover:opacity-80 hover:drop-shadow-[0_0_12px_rgba(55,148,207,0.4)] transition-all duration-300"
         />
 
         {/* CUPCAKE — topo direito (longe do botão de música no mobile) */}
         <img
           src={CUPCAKE_SRC}
           alt=""
-          className="absolute w-12 sm:w-16 md:w-20 lg:w-28 top-[6%] right-[5%] sm:right-[7%] md:right-[8%] opacity-45 sm:opacity-40 rotate-12"
+          className="absolute w-12 sm:w-16 md:w-20 lg:w-28 top-[6%] right-[5%] sm:right-[7%] md:right-[8%] opacity-45 sm:opacity-40 rotate-12 pointer-events-auto hover:opacity-80 hover:drop-shadow-[0_0_12px_rgba(203,140,194,0.4)] transition-all duration-300"
         />
 
         {/* LETRINHAS — desktop: entre a música (canto inferior direito) e o cupcake (topo direito) */}
         <img
           src={LETRINHAS_SRC}
           alt=""
-          className="hidden sm:block absolute w-32 md:w-40 lg:w-64 right-[6%] md:right-[8%] top-[45%] -translate-y-1/2 opacity-40 rotate-12"
+          className="hidden sm:block absolute w-32 md:w-40 lg:w-64 right-[6%] md:right-[8%] top-[45%] -translate-y-1/2 opacity-40 rotate-12 pointer-events-auto hover:opacity-80 hover:drop-shadow-[0_0_12px_rgba(55,148,207,0.4)] transition-all duration-300"
         />
 
         {/* EXPORTANDO — inferior esquerdo */}
         <img
           src={EXPORTANDO_SRC}
           alt=""
-          className="absolute w-28 sm:w-36 md:w-44 lg:w-60 bottom-[10%] sm:bottom-[15%] left-[4%] sm:left-[7%] md:left-[8%] opacity-45 sm:opacity-45 -rotate-6"
+          className="absolute w-28 sm:w-36 md:w-44 lg:w-60 bottom-[10%] sm:bottom-[15%] left-[4%] sm:left-[7%] md:left-[8%] opacity-45 sm:opacity-45 -rotate-6 pointer-events-auto hover:opacity-80 hover:drop-shadow-[0_0_12px_rgba(7,123,198,0.4)] transition-all duration-300"
         />
 
         {/* 22 (BALÃO) — mobile: inferior direito (isolado, sem sobreposição) */}
         <img
           src={BALLOON_SRC}
           alt=""
-          className="sm:hidden absolute w-14 bottom-[6%] right-[5%] opacity-45"
+          className="sm:hidden absolute w-14 bottom-[6%] right-[5%] opacity-45 pointer-events-auto hover:opacity-80 hover:drop-shadow-[0_0_12px_rgba(55,148,207,0.4)] transition-all duration-300"
         />
 
         {/* DIPLOMA — só desktop: coluna esquerda */}
         <img
           src={DIPLOMA_SRC}
           alt=""
-          className="hidden md:block absolute w-14 lg:w-20 left-[7%] top-[36%] opacity-40 -rotate-[70deg]"
+          className="hidden md:block absolute w-14 lg:w-20 left-[7%] top-[36%] opacity-40 -rotate-[70deg] pointer-events-auto hover:opacity-80 hover:drop-shadow-[0_0_12px_rgba(203,140,194,0.4)] transition-all duration-300"
         />
       </div>
 
@@ -172,7 +172,7 @@ export function Hero() {
               repeat: Infinity,
               ease: "easeInOut",
             }}
-            className="w-16 h-16 sm:w-24 sm:h-24 object-contain"
+            className="w-16 h-16 sm:w-24 sm:h-24 object-contain hover:drop-shadow-[0_0_16px_rgba(203,140,194,0.5)] transition-all duration-300 hover:scale-110"
           />
 
           <motion.img
@@ -185,7 +185,7 @@ export function Hero() {
               ease: "easeInOut",
               delay: 0.4,
             }}
-            className="w-16 h-16 sm:w-24 sm:h-24 object-contain mt-8 sm:mt-16"
+            className="w-16 h-16 sm:w-24 sm:h-24 object-contain mt-8 sm:mt-16 hover:drop-shadow-[0_0_16px_rgba(55,148,207,0.5)] transition-all duration-300 hover:scale-110"
           />
         </div>
 
@@ -209,7 +209,7 @@ export function Hero() {
           <motion.img
             src="/assets/info_festa.png"
             alt="14 de março de 2026, início às 16h. Rua Antônio Virtruvio, 49. Formatura + Aniversário."
-            className="max-w-[340px] sm:max-w-[500px] w-full h-auto object-contain drop-shadow-lg ml-2 sm:ml-4"
+            className="max-w-[340px] sm:max-w-[500px] w-full h-auto object-contain drop-shadow-lg ml-2 sm:ml-4 hover:drop-shadow-[0_0_20px_rgba(55,148,207,0.4)] transition-all duration-300 hover:scale-[1.02]"
           />
         </div>
 
