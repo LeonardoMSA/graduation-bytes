@@ -8,9 +8,11 @@ interface RSVPFormProps {
   guestName: string;
   setGuestName: (name: string) => void;
   onConfirm: () => void;
+  onDecline: () => void;
   setIsConfirmed: (confirmed: boolean) => void;
   /** Já confirmou uma vez (persistido); mostra aviso e desabilita inputs */
   alreadyConfirmed?: boolean;
+  alreadyDeclined?: boolean;
 }
 
 export function RSVPForm({
@@ -21,8 +23,10 @@ export function RSVPForm({
   guestName,
   setGuestName,
   onConfirm,
+  onDecline,
   setIsConfirmed,
   alreadyConfirmed = false,
+  alreadyDeclined = false,
 }: RSVPFormProps) {
   const xpInput: React.CSSProperties = {
     width: '100%',
@@ -37,7 +41,31 @@ export function RSVPForm({
     outline: 'none',
   };
 
-  const canOpenConfirmModal = Boolean(name) && !alreadyConfirmed;
+  const canOpenConfirmModal = Boolean(name) && !alreadyConfirmed && !alreadyDeclined;
+
+  if (alreadyDeclined) {
+    return (
+      <fieldset
+        style={{
+          borderTop: `2px solid ${THEME.winHighlight}`,
+          borderLeft: `2px solid ${THEME.winHighlight}`,
+          borderRight: `2px solid ${THEME.winShadow}`,
+          borderBottom: `2px solid ${THEME.winShadow}`,
+          padding: 'clamp(12px, 3.8vw, 18px)',
+          marginBottom: '10px',
+          background: THEME.winFace,
+        }}
+      >
+        <legend className="font-bold px-1 text-xs">Confirmação de Presença</legend>
+        <p style={{ fontSize: 12, fontWeight: 700, color: THEME.plum, marginBottom: 6 }}>
+          Entendido! Vamos sentir sua falta.
+        </p>
+        <p style={{ fontSize: 11, color: THEME.subText, marginBottom: 0 }}>
+          Se mudar de ideia, entre em contato comigo pelo WhatsApp.
+        </p>
+      </fieldset>
+    );
+  }
 
   if (alreadyConfirmed) {
     return (
@@ -137,6 +165,28 @@ export function RSVPForm({
         }}
       >
         Confirmar ✔
+      </button>
+
+      <button
+        onClick={onDecline}
+        disabled={!canOpenConfirmModal}
+        style={{
+          padding: '7px 16px',
+          background: `linear-gradient(180deg, ${THEME.winFace} 0%, ${THEME.winFace2} 100%)`,
+          borderTop: `2px solid ${THEME.winHighlight}`,
+          borderLeft: `2px solid ${THEME.winHighlight}`,
+          borderRight: `2px solid ${THEME.winShadow}`,
+          borderBottom: `2px solid ${THEME.winShadow}`,
+          fontFamily: 'Tahoma, "MS Sans Serif", sans-serif',
+          fontSize: '11px',
+          cursor: canOpenConfirmModal ? 'pointer' : 'not-allowed',
+          width: '100%',
+          opacity: canOpenConfirmModal ? 1 : 0.55,
+          marginTop: '6px',
+          color: THEME.subText,
+        }}
+      >
+        Não vou poder ir ✘
       </button>
     </fieldset>
   );

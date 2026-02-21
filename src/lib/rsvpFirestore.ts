@@ -5,6 +5,7 @@ interface RsvpData {
   name?: string;
   hasGuest?: boolean;
   guestName?: string;
+  declined?: boolean;
 }
 
 export interface RsvpDoc {
@@ -12,6 +13,7 @@ export interface RsvpDoc {
   name: string;
   hasGuest: boolean;
   guestName: string;
+  declined?: boolean;
   createdAt?: { seconds: number } | null;
 }
 
@@ -20,6 +22,7 @@ export async function saveRsvpToFirestore(data: RsvpData): Promise<void> {
     name: data.name ?? '',
     hasGuest: data.hasGuest ?? false,
     guestName: data.guestName ?? '',
+    declined: data.declined ?? false,
     createdAt: serverTimestamp(),
   });
 }
@@ -33,6 +36,7 @@ export async function getAllRsvps(): Promise<RsvpDoc[]> {
       name: (d.name as string) ?? '',
       hasGuest: (d.hasGuest as boolean) ?? false,
       guestName: (d.guestName as string) ?? '',
+      declined: (d.declined as boolean) ?? false,
       createdAt: d.createdAt ?? null,
     };
   });

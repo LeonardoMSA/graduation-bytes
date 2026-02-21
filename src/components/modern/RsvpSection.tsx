@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { getStoredRsvp, saveRsvp } from "@/lib/rsvpStorage";
+import { getStoredRsvp, saveRsvp, saveDecline } from "@/lib/rsvpStorage";
 import type { RsvpStorage } from "@/components/shared/constants";
 
 interface RsvpSectionProps {
@@ -12,6 +12,7 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
   const [bringingGuest, setBringingGuest] = useState(false);
   const [guestName, setGuestName] = useState("");
   const [confirmed, setConfirmed] = useState(false);
+  const [declined, setDeclined] = useState(false);
   const [alreadyConfirmed, setAlreadyConfirmed] = useState<RsvpStorage | null>(
     null,
   );
@@ -20,7 +21,8 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
     setAlreadyConfirmed(getStoredRsvp());
   }, []);
 
-  const canSubmit = name.trim().length > 0 && !alreadyConfirmed;
+  const alreadyResponded = !!alreadyConfirmed;
+  const canSubmit = name.trim().length > 0 && !alreadyResponded;
 
   const handleConfirm = () => {
     if (!canSubmit) return;
@@ -36,7 +38,16 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
     setTimeout(() => setConfirmed(false), 4000);
   };
 
+  const handleDecline = () => {
+    if (!canSubmit) return;
+    saveDecline({ name: name.trim() });
+    setDeclined(true);
+    setAlreadyConfirmed(getStoredRsvp());
+    setTimeout(() => setDeclined(false), 4000);
+  };
+
   if (alreadyConfirmed) {
+    const isDeclined = !!alreadyConfirmed.declined;
     return (
       <section id="confirmar-presenca" className="py-20 px-6 relative">
         <div className="max-w-lg mx-auto text-center">
@@ -48,23 +59,45 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
           </h2>
 
           <div className="glass rounded-3xl p-8 sm:p-12">
-            <p className="text-[#3794CF] font-modern font-bold mb-4">
-              Você só precisa confirmar uma vez.
-              <br/>Sua presença já está confirmada!
-            </p>
-            <p className="opacity-70 mb-6 leading-relaxed">
-              Se precisar alterar algo (nome, acompanhante, etc.), entre em
-              contato comigo pelo{" "}
-              <a
-                href="https://wa.me/5581986889461"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#7BB1D9] hover:text-[#3794CF] underline underline-offset-2 transition-colors"
-              >
-                WhatsApp
-              </a>
-              .
-            </p>
+            {isDeclined ? (
+              <>
+                <p className="text-[#CB8CC2] font-modern font-bold mb-4">
+                  Entendido! Vamos sentir sua falta.
+                </p>
+                <p className="opacity-70 mb-6 leading-relaxed">
+                  Se mudar de ideia, entre em contato comigo pelo{" "}
+                  <a
+                    href="https://wa.me/5581986889461"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#7BB1D9] hover:text-[#3794CF] underline underline-offset-2 transition-colors"
+                  >
+                    WhatsApp
+                  </a>
+                  .
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="text-[#3794CF] font-modern font-bold mb-4">
+                  Você só precisa confirmar uma vez.
+                  <br/>Sua presença já está confirmada!
+                </p>
+                <p className="opacity-70 mb-6 leading-relaxed">
+                  Se precisar alterar algo (nome, acompanhante, etc.), entre em
+                  contato comigo pelo{" "}
+                  <a
+                    href="https://wa.me/5581986889461"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#7BB1D9] hover:text-[#3794CF] underline underline-offset-2 transition-colors"
+                  >
+                    WhatsApp
+                  </a>
+                  .
+                </p>
+              </>
+            )}
           </div>
         </div>
       </section>
@@ -160,6 +193,28 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
           >
             {confirmed ? "Presença Confirmada!" : "Confirmar Presença"}
           </motion.button>
+
+          <div className="mt-4">
+            <motion.button
+              type="button"
+              whileHover={canSubmit ? { scale: 1.03 } : undefined}
+              whileTap={canSubmit ? { scale: 0.97 } : undefined}
+              onClick={(e) => {
+                e.preventDefault();
+                handleDecline();
+              }}
+              disabled={!canSubmit}
+              className={`px-8 py-3 rounded-full font-modern text-sm tracking-wider transition-all duration-300 ${
+                declined
+                  ? "border border-[#CB8CC2] text-[#CB8CC2] cursor-default"
+                  : canSubmit
+                    ? "border border-white/20 text-white/60 hover:border-[#CB8CC2]/50 hover:text-[#CB8CC2] cursor-pointer"
+                    : "border border-white/5 text-white/20 cursor-not-allowed"
+              }`}
+            >
+              {declined ? "Resposta registrada!" : "Não vou poder ir"}
+            </motion.button>
+          </div>
         </div>
       </div>
     </section>

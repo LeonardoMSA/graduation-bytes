@@ -9,7 +9,7 @@ import { RetroGalleryModal, type GalleryPhoto } from './retro/RetroGalleryModal'
 import { RetroMessagesModal } from './retro/RetroMessagesModal';
 import { Taskbar } from './retro/Taskbar';
 import { THEME } from './shared/constants';
-import { getStoredRsvp, saveRsvp } from '@/lib/rsvpStorage';
+import { getStoredRsvp, saveRsvp, saveDecline } from '@/lib/rsvpStorage';
 
 const BANGUELA_PHOTOS: GalleryPhoto[] = [
   { src: '/photos/banguela/01.png', alt: 'Banguela' },
@@ -74,8 +74,10 @@ export default function RetroDesktop({
   const [hasGuest, setHasGuest] = useState(false);
   const [guestName, setGuestName] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [isDeclineModal, setIsDeclineModal] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [alreadyConfirmed, setAlreadyConfirmed] = useState(false);
+  const [alreadyDeclined, setAlreadyDeclined] = useState(false);
   const [time, setTime] = useState(new Date());
   const [clickCount, setClickCount] = useState(0);
   const [inviteVisible, setInviteVisible] = useState(true);
@@ -96,6 +98,8 @@ export default function RetroDesktop({
       if (stored.name) setName(stored.name);
       if (stored.hasGuest != null) setHasGuest(stored.hasGuest);
       if (stored.guestName != null) setGuestName(stored.guestName);
+    } else if (stored?.declined) {
+      setAlreadyDeclined(true);
     }
   }, []);
 
@@ -114,7 +118,17 @@ export default function RetroDesktop({
   }, []);
 
   const handleConfirm = () => {
-    if (name) setShowModal(true);
+    if (name) {
+      setIsDeclineModal(false);
+      setShowModal(true);
+    }
+  };
+
+  const handleDecline = () => {
+    if (name) {
+      setIsDeclineModal(true);
+      setShowModal(true);
+    }
   };
 
   function handleStartClick() {
@@ -128,15 +142,20 @@ export default function RetroDesktop({
   const canEvolve = isConfirmed;
 
   const handleConfirmFromModal = useCallback(() => {
-    saveRsvp({
-      confirmed: true,
-      name,
-      hasGuest,
-      guestName,
-    });
-    setIsConfirmed(true);
+    if (isDeclineModal) {
+      saveDecline({ name });
+      setAlreadyDeclined(true);
+    } else {
+      saveRsvp({
+        confirmed: true,
+        name,
+        hasGuest,
+        guestName,
+      });
+      setIsConfirmed(true);
+    }
     setShowModal(false);
-  }, [name, hasGuest, guestName]);
+  }, [name, hasGuest, guestName, isDeclineModal]);
 
   function handleLearnMoreClick(e: React.MouseEvent) {
     if (!onLearnMore) return;
@@ -373,8 +392,10 @@ export default function RetroDesktop({
                 guestName={guestName}
                 setGuestName={setGuestName}
                 onConfirm={handleConfirm}
+                onDecline={handleDecline}
                 setIsConfirmed={setIsConfirmed}
                 alreadyConfirmed={alreadyConfirmed}
+                alreadyDeclined={alreadyDeclined}
               />
 
               <div className="text-center">
@@ -424,6 +445,7 @@ export default function RetroDesktop({
           handleConfirmFromModal();
           onEvolve();
         }}
+        isDecline={isDeclineModal}
       />
 
       <RetroGalleryModal

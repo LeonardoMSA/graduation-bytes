@@ -40,7 +40,7 @@ function readFromStorage(storage: Storage): RsvpStorage | null {
     const raw = storage.getItem(RSVP_STORAGE_KEY);
     if (!raw) return null;
     const data = JSON.parse(raw) as RsvpStorage;
-    return data?.confirmed ? data : null;
+    return (data?.confirmed || data?.declined) ? data : null;
   } catch {
     return null;
   }
@@ -99,10 +99,21 @@ function writeToStorage(data: RsvpStorage): boolean {
 export function saveRsvp(data: Omit<RsvpStorage, 'confirmed' | 'senderId'> & { confirmed: true }) {
   const existing = getStoredRsvp();
   const senderId = existing?.senderId ?? generateId();
-  const full: RsvpStorage = { ...data, confirmed: true, senderId };
+  const full: RsvpStorage = { ...data, confirmed: true, declined: false, senderId };
   writeToStorage(full);
 
   saveRsvpToFirestore(data).catch(() => {
     // fire-and-forget: Firestore failure doesn't affect local UX
+  });
+}
+
+export function saveDecline(data: { name?: string }) {
+  const existing = getStoredRsvp();
+  const senderId = existing?.senderId ?? generateId();
+  const full: RsvpStorage = { confirmed: false, declined: true, name: data.name, senderId };
+  writeToStorage(full);
+
+  saveRsvpToFirestore({ ...data, declined: true }).catch(() => {
+    // fire-and-forget
   });
 }

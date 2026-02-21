@@ -11,6 +11,7 @@ interface PersonRow {
   isGuest: boolean;
   guestOf?: string;
   date?: string;
+  declined?: boolean;
 }
 
 function formatDate(seconds?: number): string {
@@ -30,8 +31,8 @@ function rsvpsToPersonRows(rsvps: RsvpDoc[]): PersonRow[] {
     const date = formatDate(r.createdAt?.seconds);
     const mainName = r.name?.trim() || "(sem nome)";
     num += 1;
-    rows.push({ num, name: mainName, isGuest: false, date });
-    if (r.hasGuest) {
+    rows.push({ num, name: mainName, isGuest: false, date, declined: r.declined });
+    if (r.hasGuest && !r.declined) {
       num += 1;
       rows.push({
         num,
@@ -135,7 +136,9 @@ export default function ListaConvidados() {
     );
   }
 
-  const totalPessoas = allRows.length;
+  const confirmedRows = allRows.filter(r => !r.declined);
+  const declinedRows = allRows.filter(r => r.declined);
+  const totalPessoas = confirmedRows.length;
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] py-12 sm:py-16 px-4 sm:px-6">
@@ -191,9 +194,14 @@ export default function ListaConvidados() {
                     {row.num}
                   </span>
                   <div className="flex-1 min-w-0">
-                    <span className="text-white text-sm font-medium">
+                    <span className={`text-sm font-medium ${row.declined ? 'text-white/40 line-through' : 'text-white'}`}>
                       {row.name}
                     </span>
+                    {row.declined && (
+                      <span className="ml-2 text-[10px] text-red-400/80 bg-red-400/10 px-1.5 py-0.5 rounded">
+                        recusou
+                      </span>
+                    )}
                     {row.isGuest && row.guestOf && (
                       <span className="ml-2 text-[10px] text-[#CB8CC2]/80 bg-[#CB8CC2]/10 px-1.5 py-0.5 rounded">
                         acompanhante de {row.guestOf}
@@ -249,7 +257,8 @@ export default function ListaConvidados() {
                 </span>
               </div>
               <p className="text-[11px] text-white/40 mt-1">
-                {rsvps.length} confirmação(ões)
+                {rsvps.filter(r => !r.declined).length} confirmação(ões)
+                {declinedRows.length > 0 && ` • ${declinedRows.length} recusa(s)`}
               </p>
             </div>
           </>

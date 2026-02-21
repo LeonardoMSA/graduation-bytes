@@ -11,6 +11,7 @@ interface ConfirmModalProps {
   guestName: string;
   onConfirm: () => void;
   onEvolve: () => void;
+  isDecline?: boolean;
 }
 
 export function ConfirmModal({
@@ -21,6 +22,7 @@ export function ConfirmModal({
   guestName,
   onConfirm,
   onEvolve,
+  isDecline = false,
 }: ConfirmModalProps) {
   if (!show) return null;
 
@@ -78,7 +80,7 @@ export function ConfirmModal({
                   borderBottom: `1px solid ${THEME.winShadow}`,
                 }}
               />
-              Confirmação
+              {isDecline ? 'Recusar' : 'Confirmação'}
             </div>
 
             <button
@@ -92,44 +94,68 @@ export function ConfirmModal({
           </div>
 
           <div style={{ padding: 'clamp(12px, 3.8vw, 18px)', background: THEME.winFace2 }}>
-            <div style={{ fontSize: 13, fontWeight: 700, color: THEME.text }}>
-              {`Obrigada, ${name}! Presença confirmada ✅`}
-            </div>
+            {isDecline ? (
+              <>
+                <div style={{ fontSize: 13, fontWeight: 700, color: THEME.text }}>
+                  {`Vamos sentir sua falta, ${name}!`}
+                </div>
+                <div style={{ marginTop: 8, fontSize: 12, color: THEME.subText }}>
+                  Se mudar de ideia, entre em contato pelo WhatsApp.
+                </div>
+                <div style={{ display: 'flex', gap: 10, marginTop: 14 }}>
+                  <button
+                    onClick={() => {
+                      onConfirm();
+                      onClose();
+                    }}
+                    style={{ ...xpBtn, flex: '1 1 140px' }}
+                  >
+                    Fechar
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <div style={{ fontSize: 13, fontWeight: 700, color: THEME.text }}>
+                  {`Obrigada, ${name}! Presença confirmada ✅`}
+                </div>
 
-            {hasGuest && guestName && (
-              <div style={{ marginTop: 8, fontSize: 12, color: THEME.subText }}>
-                Acompanhante: <strong>{guestName}</strong>
-              </div>
+                {hasGuest && guestName && (
+                  <div style={{ marginTop: 8, fontSize: 12, color: THEME.subText }}>
+                    Acompanhante: <strong>{guestName}</strong>
+                  </div>
+                )}
+
+                <div style={{ display: 'flex', gap: 10, marginTop: 14, flexWrap: 'wrap' }}>
+                  <button
+                    onClick={() => {
+                      onConfirm();
+                      onClose();
+                    }}
+                    style={{ ...xpBtn, flex: '1 1 140px' }}
+                  >
+                    Fechar
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      onConfirm();
+                      onClose();
+                      onEvolve();
+                    }}
+                    title="Ajustar a interface"
+                    style={{
+                      ...xpBtn,
+                      flex: '1 1 180px',
+                      background: `linear-gradient(180deg, ${THEME.lilac} 0%, ${THEME.winFace2} 100%)`,
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    Ajustar interface
+                  </button>
+                </div>
+              </>
             )}
-
-            <div style={{ display: 'flex', gap: 10, marginTop: 14, flexWrap: 'wrap' }}>
-              <button
-                onClick={() => {
-                  onConfirm();
-                  onClose();
-                }}
-                style={{ ...xpBtn, flex: '1 1 140px' }}
-              >
-                Fechar
-              </button>
-
-              <button
-                onClick={() => {
-                  onConfirm();
-                  onClose();
-                  onEvolve();
-                }}
-                title="Ajustar a interface"
-                style={{
-                  ...xpBtn,
-                  flex: '1 1 180px',
-                  background: `linear-gradient(180deg, ${THEME.lilac} 0%, ${THEME.winFace2} 100%)`,
-                  fontWeight: 'bold',
-                }}
-              >
-                Ajustar interface
-              </button>
-            </div>
           </div>
         </BevelBox>
       </motion.div>

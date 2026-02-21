@@ -103,6 +103,7 @@ export const RSVP_STORAGE_KEY = 'graduation-bytes-rsvp';
 
 export interface RsvpStorage {
   confirmed: boolean;
+  declined?: boolean;
   name?: string;
   hasGuest?: boolean;
   guestName?: string;
