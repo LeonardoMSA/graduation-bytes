@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { preloadAll } from "@/lib/preloadAssets";
 import { InviteLightShow } from "@/components/transition/InviteLightShow";
@@ -15,6 +15,7 @@ const PHASE_BOUNDS = [0, 1200, 2400, 4300, 7200, 8000] as const;
 const TICK_MS = 200;
 const PREPARADOS_START_MS = PHASE_BOUNDS[4];
 const PREPARADOS_LIGHTS_DELAY_MS = 4000;
+const FONT_GLITCH_DURATION_MS = 800;
 
 function getPhase(elapsed: number): number {
   if (elapsed < MIN_TRANSITION_MS) {
@@ -30,6 +31,9 @@ function getPhase(elapsed: number): number {
 export default function GlitchTransition({ onComplete, holdMs = 0 }: Props) {
   const [elapsed, setElapsed] = useState(0);
   const [preloadDone, setPreloadDone] = useState(false);
+  const [fontGlitchClass, setFontGlitchClass] = useState<string | null>(null);
+  const fontGlitchRaf = useRef(0);
+  const fontGlitchTriggered = useRef(false);
 
   useEffect(() => {
     const id = setInterval(() => setElapsed((e) => e + TICK_MS), TICK_MS);
@@ -43,6 +47,28 @@ export default function GlitchTransition({ onComplete, holdMs = 0 }: Props) {
     phase === 4 &&
     elapsed >= PREPARADOS_START_MS + PREPARADOS_LIGHTS_DELAY_MS &&
     !preloadDone;
+
+  // Font glitch: rapidly toggle between font-pixel and font-modern when entering phase 3
+  useEffect(() => {
+    if (phase === 3 && !fontGlitchTriggered.current) {
+      fontGlitchTriggered.current = true;
+      const start = performance.now();
+
+      const tick = () => {
+        const dt = performance.now() - start;
+        if (dt >= FONT_GLITCH_DURATION_MS) {
+          setFontGlitchClass(null);
+          return;
+        }
+        const bias = dt / FONT_GLITCH_DURATION_MS;
+        setFontGlitchClass(Math.random() < bias ? "font-modern" : "font-pixel");
+        fontGlitchRaf.current = requestAnimationFrame(tick);
+      };
+
+      fontGlitchRaf.current = requestAnimationFrame(tick);
+    }
+    return () => cancelAnimationFrame(fontGlitchRaf.current);
+  }, [phase]);
 
   // Preload de imagens e mapa durante a transição
   useEffect(() => {
@@ -136,9 +162,19 @@ export default function GlitchTransition({ onComplete, holdMs = 0 }: Props) {
             <motion.div
               initial={{ opacity: 0.2, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="font-modern"
+              className={fontGlitchClass ?? "font-modern"}
             >
-              <p className="text-3xl sm:text-5xl font-bold bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(to right, #CB8CC2, #CBBACE)' }}>
+              <p
+                className="text-3xl sm:text-5xl font-bold bg-clip-text text-transparent"
+                style={{
+                  backgroundImage: 'linear-gradient(to right, #CB8CC2, #CBBACE)',
+                  ...(fontGlitchClass !== null
+                    ? {
+                        textShadow: `${Math.random() > 0.5 ? 2 : -2}px 0 rgba(55,148,207,0.6), ${Math.random() > 0.5 ? -2 : 2}px 0 rgba(203,140,194,0.6)`,
+                      }
+                    : {}),
+                }}
+              >
                 Lembrem de confirmar a presença!
               </p>
             </motion.div>
