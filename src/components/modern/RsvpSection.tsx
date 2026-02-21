@@ -43,6 +43,7 @@ export function RsvpSection({ onConfirm }: RsvpSectionProps) {
     saveDecline({ name: name.trim() });
     setDeclined(true);
     setAlreadyConfirmed(getStoredRsvp());
+    onConfirm();
     setTimeout(() => setDeclined(false), 4000);
   };
 

@@ -139,7 +139,7 @@ export default function RetroDesktop({
     window.location.reload();
   }
 
-  const canEvolve = isConfirmed;
+  const canEvolve = isConfirmed || alreadyDeclined;
 
   const handleConfirmFromModal = useCallback(() => {
     if (isDeclineModal) {

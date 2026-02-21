@@ -102,7 +102,7 @@ export function ConfirmModal({
                 <div style={{ marginTop: 8, fontSize: 12, color: THEME.subText }}>
                   Se mudar de ideia, entre em contato pelo WhatsApp.
                 </div>
-                <div style={{ display: 'flex', gap: 10, marginTop: 14 }}>
+                <div style={{ display: 'flex', gap: 10, marginTop: 14, flexWrap: 'wrap' }}>
                   <button
                     onClick={() => {
                       onConfirm();
@@ -111,6 +111,23 @@ export function ConfirmModal({
                     style={{ ...xpBtn, flex: '1 1 140px' }}
                   >
                     Fechar
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      onConfirm();
+                      onClose();
+                      onEvolve();
+                    }}
+                    title="Ajustar a interface"
+                    style={{
+                      ...xpBtn,
+                      flex: '1 1 180px',
+                      background: `linear-gradient(180deg, ${THEME.lilac} 0%, ${THEME.winFace2} 100%)`,
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    Ajustar interface
                   </button>
                 </div>
               </>
